@@ -84,6 +84,9 @@ export default function App() {
     }
   }
 
+  const navRoutes = routes.filter((route) => { return route.name !== 'Sign Up' })
+
+
   // Change the openConfigurator state
   const handleConfiguratorOpen = () =>
     setOpenConfigurator(dispatch, !openConfigurator)
@@ -157,7 +160,7 @@ export default function App() {
                   : brandWhite
               }
               brandName="Mainstay"
-              routes={routes}
+              routes={navRoutes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
             />
@@ -182,7 +185,7 @@ export default function App() {
             color={sidenavColor}
             // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="MAINSTAY"
-            routes={routes}
+            routes={navRoutes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />

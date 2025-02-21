@@ -60,15 +60,15 @@ const routes = [
   },
   {
     type: 'collapse',
-    name: 'Tables',
+    name: 'Deposit',
     key: 'tables',
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: '/tables',
+    route: '/history',
     component: <Tables />,
   },
   {
     type: 'collapse',
-    name: 'Billing',
+    name: 'Withdraw',
     key: 'billing',
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: '/billing',
