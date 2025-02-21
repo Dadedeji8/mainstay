@@ -46,7 +46,7 @@ function CoverLayout({ coverHeight, image, children }) {
         width="calc(100% - 2rem)"
         minHeight={coverHeight}
         borderRadius="xl"
-        mx={2}
+        mx={1}
         my={2}
         pt={6}
         pb={28}
