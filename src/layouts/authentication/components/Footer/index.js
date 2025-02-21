@@ -32,7 +32,7 @@ function Footer({ light }) {
   const { size } = typography
 
   return (
-    <MDBox position="absolute" width="100%" bottom={0} py={4}>
+    <MDBox width="100%" bottom={0} py={4}>
       <Container>
         <MDBox
           width="100%"
@@ -62,7 +62,7 @@ function Footer({ light }) {
 
             </MDBox>
 
-            <Link href="https://www.creative-tim.com/" target="_blank">
+            <Link href="/" target="_blank">
               <MDTypography
                 variant="button"
                 fontWeight="medium"
