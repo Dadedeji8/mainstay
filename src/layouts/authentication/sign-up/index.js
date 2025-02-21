@@ -130,16 +130,14 @@ function Cover() {
                 <MDBox mt={3} mb={1} textAlign="center">
                   <MDTypography variant="button" color="text">
                     Already have an account?{' '}
-                    <MDTypography
-                      component={Link}
-                      to="/authentication/sign-in"
-                      variant="button"
-                      color="info"
-                      fontWeight="medium"
-                      textGradient
+                    <Link
+
+                      to={'/authentication/sign-in'}
                     >
-                      Sign In
-                    </MDTypography>
+                      <span className='underline'>
+                        Sign In
+                      </span>
+                    </Link>
                   </MDTypography>
                 </MDBox>
               </MDBox>
