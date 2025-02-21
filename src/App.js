@@ -159,7 +159,7 @@ export default function App() {
                   ? brandDark
                   : brandWhite
               }
-              brandName="Mainstay"
+              brandName="Mainstay Bank"
               routes={navRoutes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -184,7 +184,7 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="MAINSTAY"
+            brandName="MAINSTAY BANK"
             routes={navRoutes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
