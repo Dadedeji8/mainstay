@@ -19,7 +19,7 @@ import bgImage from 'assets/images/bg-sign-up-cover.jpeg'
 
 function Cover() {
   return (
-    <CoverLayout image={bgImage}>
+    <CoverLayout image={bgImage} >
       <Card>
         <MDBox
           variant="gradient"
@@ -35,14 +35,11 @@ function Cover() {
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             MAINSTAY
           </MDTypography>
-          <MDTypography display="block" variant="button" color="white" my={1}>
-            Enter your email and password to register
-          </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="text" label="Name" variant="standard" fullWidth />
+              <MDInput type="text" label="Full Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput
