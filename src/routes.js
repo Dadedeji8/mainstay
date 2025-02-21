@@ -48,6 +48,7 @@ import HomePage from 'layouts/authentication/sign-up'
 
 // @mui icons
 import Icon from '@mui/material/Icon'
+import HistoryPage from 'layouts/History/HistoryPage'
 
 const routes = [
   {
@@ -57,6 +58,14 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: '/dashboard',
     component: <Dashboard />,
+  },
+  {
+    type: 'collapse',
+    name: 'History',
+    key: 'tables',
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: '/history',
+    component: <HistoryPage />,
   },
   {
     type: 'collapse',
