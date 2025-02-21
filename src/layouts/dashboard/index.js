@@ -1,20 +1,6 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
 import Grid from '@mui/material/Grid'
+import { useState } from 'react'
 
 // Material Dashboard 2 React components
 import MDBox from 'components/MDBox'
@@ -30,12 +16,16 @@ import ComplexStatisticsCard from 'examples/Cards/StatisticsCards/ComplexStatist
 // Data
 import reportsBarChartData from 'layouts/dashboard/data/reportsBarChartData'
 import reportsLineChartData from 'layouts/dashboard/data/reportsLineChartData'
-
+import cardBG from '../../assets/images/cardBG.jpg'
 // Dashboard components
 import Projects from 'layouts/dashboard/components/Projects'
 import OrdersOverview from 'layouts/dashboard/components/OrdersOverview'
+import { Box, Button, Card, Stack, Typography } from '@mui/material'
+import { RemoveRedEye, RemoveRedEyeOutlined } from '@mui/icons-material'
+
 
 function Dashboard() {
+  const [showValue, setShowValue] = useState(false)
   const { sales, tasks } = reportsLineChartData
 
   return (
@@ -46,15 +36,15 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
-                percentage={{
-                  color: 'success',
-                  amount: '+55%',
-                  label: 'than lask week',
-                }}
+                color="success"
+                icon="money"
+                title="Total Balance"
+                count={"$40433"}
+              // percentage={{
+              //   color: 'success',
+              //   amount: '+55%',
+              //   label: 'than lask week',
+              // }}
               />
             </MDBox>
           </Grid>
@@ -62,7 +52,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon="leaderboard"
-                title="Today's Users"
+                title="Available balance"
                 count="2,300"
                 percentage={{
                   color: 'success',
@@ -77,8 +67,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="success"
                 icon="store"
-                title="Revenue"
-                count="34k"
+                title="Account Type"
+                count="Lv 1"
                 percentage={{
                   color: 'success',
                   amount: '+1%',
@@ -91,9 +81,9 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
+                icon="person"
+                title="Verification Status"
+                count="Verified"
                 percentage={{
                   color: 'success',
                   amount: '',
@@ -103,7 +93,7 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox mt={4.5}>
+        {/* <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
@@ -143,20 +133,65 @@ function Dashboard() {
               </MDBox>
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
         <MDBox>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
+            <Grid item xs={12} lg={4} >
+
+              <div className={`h-[200px] flex flex-col justify-between p-4 rounded-xl shadow cardImg`}>
+                <div>
+                  <Box className={'flex'}>
+                    <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
+                      Account Overview
+                    </Typography>
+                  </Box>
+                  <div className="flex flex-row items-center gap-3">
+
+                    <Typography variant='h2' color={"primary"}>
+                      {showValue ? 180000 : "*****"}
+                    </Typography>
+                    <span onClick={() => { setShowValue(!showValue) }} className='flex items-center'>
+                      {showValue ? <RemoveRedEyeOutlined color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} /> : <RemoveRedEye color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} />}
+                    </span>
+                  </div>
+                </div>
+                <Box className="flex gap-3">
+                  <Button variant='contained' sx={{ color: "#ffffff" }} size='medium' color='primary'>
+                    Transfer
+                  </Button>
+                  <Button variant='contained' size='medium' sx={{ color: "#ffffff" }} color='primary'>
+                    Deposit
+                  </Button>
+                </Box>
+
+              </div>
+
+            </Grid>
+            <Grid item xs={12} lg={8}>
               <Projects />
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+
+            {/* <Grid item xs={12} md={6} lg={4}>
               <OrdersOverview />
+            </Grid> */}
+
+          </Grid>
+        </MDBox>
+        <MDBox className={'mt-5'}>
+          <Grid container>
+            <Grid item lg={6}>
+              <Card padding={2} sx={{ padding: 2 }}>
+                <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
+                  Notification
+                </Typography>
+              </Card>
+
             </Grid>
           </Grid>
         </MDBox>
       </MDBox>
       <Footer />
-    </DashboardLayout>
+    </DashboardLayout >
   )
 }
 
