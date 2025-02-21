@@ -20,8 +20,8 @@ import cardBG from '../../assets/images/cardBG.jpg'
 // Dashboard components
 import Projects from 'layouts/dashboard/components/Projects'
 import OrdersOverview from 'layouts/dashboard/components/OrdersOverview'
-import { Box, Button, Card, Stack, Typography } from '@mui/material'
-import { RemoveRedEye, RemoveRedEyeOutlined } from '@mui/icons-material'
+import { Box, Button, Card, Divider, Stack, Typography } from '@mui/material'
+import { Cancel, Close, RemoveRedEye, RemoveRedEyeOutlined } from '@mui/icons-material'
 
 
 function Dashboard() {
@@ -184,6 +184,15 @@ function Dashboard() {
                 <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
                   Notification
                 </Typography>
+                <Stack>
+                  <Box padding={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography variant='body2'>
+                      Your withdraw request Has been approved
+                    </Typography>
+                    <Close color='warning' cursor="pointer" />
+                  </Box>
+                  <Divider variant="middle"></Divider>
+                </Stack>
               </Card>
 
             </Grid>

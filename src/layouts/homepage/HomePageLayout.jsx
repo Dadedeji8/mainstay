@@ -295,7 +295,7 @@ const HomePageLayout = () => {
                     </h3>
                     <Box marginTop={2} >
                         <p className="text-center leading-widest text-md">
-                            Mainstay is the wealth management division of Mainstay  Financial. Our team consists of the experts, products and services formerly offered by Mainstay  Investor Services and Alberta Private Client.
+                            Mainstay Bank is the wealth management division of Mainstay  Financial. Our team consists of the experts, products and services formerly offered by Mainstay  Investor Services and Alberta Private Client.
 
                             By integrating investments with private banking services, we are able to deeply understand your goals and challenges to deliver personalized solutions and advice.
                         </p>
