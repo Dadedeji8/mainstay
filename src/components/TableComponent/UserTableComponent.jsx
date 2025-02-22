@@ -16,6 +16,7 @@ function UsersTableComponent() {
       balance: user.account.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 }),
     },
     isAdmin: user.isAdmin ? 'Admin' : 'User',
+    isActive: user.isActive ? 'Active' : 'Disabled',
     createdAt: moment(user.createdAt).format('DD MMM yyy'),
     action: <UserActionMenu rowId={user._id} wallet={user.account.balance} isActive={user.isActive} />,
   }))
@@ -35,6 +36,7 @@ function UsersTableComponent() {
             { Header: 'Balance', accessor: 'account.balance' },
             { Header: 'Date', accessor: 'createdAt' },
             { Header: 'Type', accessor: 'isAdmin' },
+            { Header: 'Status', accessor: 'isActive' },
             { Header: 'Action', accessor: 'action' },
           ],
           rows: [...formattedAllUsers],
