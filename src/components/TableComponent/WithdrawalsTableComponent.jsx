@@ -4,6 +4,9 @@ import React, { useState } from 'react'
 import DataTable from 'examples/Tables/DataTable';
 import { useAuth } from 'context/AuthContext';
 import moment from 'moment';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+import PropTypes from 'prop-types';
+
 
 
 function WithdrawalsTableComponent() {
@@ -40,8 +43,11 @@ function WithdrawalsTableComponent() {
 
 export default WithdrawalsTableComponent
 
-const WithdrawalActionMenu = () => {
+const WithdrawalActionMenu = ({ rowId }) => {
+
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [reason, setReason] = useState("");
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -50,6 +56,21 @@ const WithdrawalActionMenu = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+    handleClose();
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleWalletUpdate = () => {
+    // Logic to update wallet amount
+    console.log(`Reject Withdrawal ${rowId} for Reason: ${reason}`);
+    handleDialogClose();
   };
 
   return (
@@ -74,8 +95,71 @@ const WithdrawalActionMenu = () => {
         }}
       >
         <MenuItem onClick={handleClose}>Approve</MenuItem>
-        <MenuItem onClick={handleClose}>Reject</MenuItem>
+        <MenuItem onClick={handleDialogOpen}>Reject</MenuItem>
       </Menu>
+      <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
+        <DialogTitle>Reject Withdrawal</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Reason for rejection"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Close</Button>
+          <Button onClick={handleWalletUpdate}>Reject</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
+
+WithdrawalActionMenu.propTypes = {
+  rowId: PropTypes.string.isRequired,
+};
+
+// const WithdrawalActionMenu = () => {
+//   const [anchorEl, setAnchorEl] = useState(null);
+//   const open = Boolean(anchorEl);
+
+//   const handleClick = (event) => {
+//     setAnchorEl(event.currentTarget);
+//   };
+
+//   const handleClose = () => {
+//     setAnchorEl(null);
+//   };
+
+//   return (
+//     <div>
+//       <IconButton
+//         aria-label="more"
+//         aria-controls="long-menu"
+//         aria-haspopup="true"
+//         onClick={handleClick}
+//       >
+//         <MoreVert />
+//       </IconButton>
+//       <Menu
+//         anchorEl={anchorEl}
+//         open={open}
+//         onClose={handleClose}
+//         PaperProps={{
+//           style: {
+//             maxHeight: 48 * 4.5,
+//             width: '20ch',
+//           },
+//         }}
+//       >
+//         <MenuItem onClick={handleClose}>Approve</MenuItem>
+//         <MenuItem onClick={handleClose}>Reject</MenuItem>
+//       </Menu>
+//     </div>
+//   );
+// };
