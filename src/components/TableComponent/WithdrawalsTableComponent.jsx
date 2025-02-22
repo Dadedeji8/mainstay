@@ -115,9 +115,9 @@ const WithdrawalActionMenu = ({ rowId }) => {
               id: rowId,
               status: 'approved',
               reason: 'Okay',
-            }).then(() => {
-              handleClose()
             })
+              handleClose()
+
           }}
         >
           Approve

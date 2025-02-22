@@ -3,6 +3,7 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import DataTable from 'examples/Tables/DataTable';
+import PropTypes from 'prop-types';
 import { MoreVert } from '@mui/icons-material';
 
 
@@ -36,7 +37,8 @@ function DepositsTableComponent() {
 
 export default DepositsTableComponent
 
-const DepositActionMenu = () => {
+const DepositActionMenu = ({ rowId }) => {
+  const { adminApproveDeposits } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -69,9 +71,20 @@ const DepositActionMenu = () => {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Approve</MenuItem>
-        <MenuItem onClick={handleClose}>Reject</MenuItem>
+        <MenuItem onClick={() => {
+          adminApproveDeposits({ id: rowId, status: "approved" })
+          handleClose()
+
+        }}>Approve</MenuItem>
+        <MenuItem onClick={() => {
+          adminApproveDeposits({ id: rowId, status: "rejected" })
+          handleClose()
+
+        }}>Reject</MenuItem>
       </Menu>
     </div>
   );
+};
+DepositActionMenu.propTypes = {
+  rowId: PropTypes.string.isRequired,
 };
