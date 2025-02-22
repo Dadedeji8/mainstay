@@ -444,6 +444,31 @@ export const AuthProvider = ({ children }) => {
             .catch((error) => console.error(error));
     }
 
+    function adminApproveWithdrawals({ id, status, reason }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "status": status,
+            "message": reason
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+
+        fetch(`${endpoint}/bank/withdrawal/${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+    }
+
     function getDeposits({ id, userId }) {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
@@ -488,7 +513,7 @@ export const AuthProvider = ({ children }) => {
             setDeposits,
             withdrawals,
             setWithdrawals,
-            allUsers
+            allUsers, adminApproveWithdrawals
         }}>
             {children}
         </AuthenticationContext.Provider>
