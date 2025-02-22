@@ -7,8 +7,135 @@ const AuthenticationContext = createContext();
 
  */
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    const endpoint = "http://localhost:5000/api";
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [profile, setProfile] = useState(null);
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1SWQiOiI2N2I2MDlhMTRlYTg5ZDk4Y2MxYzEwOGYiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NDAwNjAwODcsImV4cCI6MTc0MDY2NDg4N30.YVd25PW6lVzMW7Ym3MrU17Y7M2rSAvLH466vQ45d6-8");
+
+    const [allUsers, setAllUsers] = useState([
+        {
+            "account": {
+                "balance": 10000
+            },
+            "_id": "67b609a14ea89d98cc1c108f",
+            "fullName": "Josiah Victor",
+            "email": "victorjosiahm3@gmail.com",
+            "gender": "Male",
+            "country": "Nigeria",
+            "age": 25,
+            "username": "Jovick",
+            "__v": 0,
+            "isAdmin": true,
+            "emailVaried": false
+        },
+        {
+            "account": {
+                "balance": 5000
+            },
+            "_id": "67b609a14ea89d98cc1c1090",
+            "fullName": "Alice Johnson",
+            "email": "alice.johnson@example.com",
+            "gender": "Female",
+            "country": "USA",
+            "age": 30,
+            "username": "AliceJ",
+            "__v": 0,
+            "isAdmin": false,
+            "emailVaried": true
+        },
+        {
+            "account": {
+                "balance": 3000
+            },
+            "_id": "67b609a14ea89d98cc1c1100",
+            "fullName": "Bob Smith",
+            "email": "bob.smith@example.com",
+            "gender": "Male",
+            "country": "Canada",
+            "age": 28,
+            "username": "BobS",
+            "__v": 0,
+            "isAdmin": false,
+            "emailVaried": true
+        },
+        {
+            "account": {
+                "balance": 7000
+            },
+            "_id": "67b609a14ea89d98cc1c1110",
+            "fullName": "Charlie Brown",
+            "email": "charlie.brown@example.com",
+            "gender": "Male",
+            "country": "UK",
+            "age": 35,
+            "username": "CharlieB",
+            "__v": 0,
+            "isAdmin": false,
+            "emailVaried": true
+        },
+        {
+            "account": {
+                "balance": 8000
+            },
+            "_id": "67b609a14ea89d98cc1c1120",
+            "fullName": "Diana Prince",
+            "email": "diana.prince@example.com",
+            "gender": "Female",
+            "country": "France",
+            "age": 27,
+            "username": "DianaP",
+            "__v": 0,
+            "isAdmin": false,
+            "emailVaried": true
+        },
+        {
+            "account": {
+                "balance": 6000
+            },
+            "_id": "67b609a14ea89d98cc1c1130",
+            "fullName": "Eve Adams",
+            "email": "eve.adams@example.com",
+            "gender": "Female",
+            "country": "Germany",
+            "age": 32,
+            "username": "EveA",
+            "__v": 0,
+            "isAdmin": false,
+            "emailVaried": true
+        },
+        {
+            "account": {
+                "balance": 9000
+            },
+            "_id": "67b609a14ea89d98cc1c1140",
+            "fullName": "Frank Miller",
+            "email": "frank.miller@example.com",
+            "gender": "Male",
+            "country": "Australia",
+            "age": 29,
+            "username": "FrankM",
+            "__v": 0,
+            "isAdmin": false,
+            "emailVaried": true
+        },
+        {
+            "account": {
+                "balance": 4000
+            },
+            "_id": "67b609a14ea89d98cc1c1150",
+            "fullName": "Grace Lee",
+            "email": "grace.lee@example.com",
+            "gender": "Female",
+            "country": "South Korea",
+            "age": 26,
+            "username": "GraceL",
+            "__v": 0,
+            "isAdmin": false,
+            "emailVaried": true
+        }
+    ])
     const [transactionsHistory, setTransactionsHistory] = useState([
         {
             _id: '67b764b4f476567a415aab6c',
@@ -206,15 +333,217 @@ export const AuthProvider = ({ children }) => {
         }
     ])
 
-
-    const endpoint = "http://localhost:5000/api";
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1SWQiOiI2N2I2MDlhMTRlYTg5ZDk4Y2MxYzEwOGYiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NDAwNjAwODcsImV4cCI6MTc0MDY2NDg4N30.YVd25PW6lVzMW7Ym3MrU17Y7M2rSAvLH466vQ45d6-8";
     useEffect(() => {
         // const token = localStorage.getItem('token');
         if (token) {
             setIsAuthenticated(true);
         }
     }, []);
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+        getProfile();
+        getWithdrawals({});
+        getTransactions({});
+        getDeposits({});
+        // only admin
+        getAllProfile({});
+    }, [token]);
+
+    function getProfile() {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch(`${endpoint}/user/profile`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+    }
+
+    function getAllProfile({ userId }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        let api = `${endpoint}/user`;
+        const queryParams = new URLSearchParams();
+
+        if (userId) {
+            queryParams.append("userId", userId);
+        }
+        if (queryParams.toString()) {
+            api = `${api}?${queryParams.toString()}`;
+        }
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch(api, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+    }
+
+    function getTransactions({ id, userId }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        let api = `${endpoint}/bank/history`;
+        const queryParams = new URLSearchParams();
+        if (id) {
+            queryParams.append("id", id);
+        }
+        if (userId) {
+            queryParams.append("userId", userId);
+        }
+        if (queryParams.toString()) {
+            api = `${api}?${queryParams.toString()}`;
+        }
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch(api, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+    }
+
+    function getWithdrawals({ id, userId }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        let api = `${endpoint}/bank/withdrawal`;
+        const queryParams = new URLSearchParams();
+        if (id) {
+            queryParams.append("id", id);
+        }
+        if (userId) {
+            queryParams.append("userId", userId);
+        }
+        if (queryParams.toString()) {
+            api = `${api}?${queryParams.toString()}`;
+        }
+        return console.log({ api })
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch(api, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+    }
+
+    function adminApproveWithdrawals({ id, status, reason }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "status": status,
+            "message": reason
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+
+        fetch(`${endpoint}/bank/withdrawal/${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+    }
+
+    function adminApproveDeposits({ id, status }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "status": status,
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+
+        fetch(`${endpoint}/bank/deposit/${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+        return
+    }
+
+    function adminUpdateUserWallet({ id, amount }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "amount": amount,
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+
+        fetch(`${endpoint}/bank/balance/${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+        return
+    }
+
+    function getDeposits({ id, userId }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        let api = `${endpoint}/bank/deposit`;
+        const queryParams = new URLSearchParams();
+        if (id) {
+            queryParams.append("id", id);
+        }
+        if (userId) {
+            queryParams.append("userId", userId);
+        }
+        if (queryParams.toString()) {
+            api = `${api}?${queryParams.toString()}`;
+        }
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch(api, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+    }
 
     const login = (token) => {
         localStorage.setItem('token', token);
@@ -233,7 +562,8 @@ export const AuthProvider = ({ children }) => {
             deposits,
             setDeposits,
             withdrawals,
-            setWithdrawals
+            setWithdrawals,
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
         }}>
             {children}
         </AuthenticationContext.Provider>

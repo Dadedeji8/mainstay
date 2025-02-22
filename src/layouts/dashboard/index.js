@@ -26,6 +26,7 @@ import DepositsTableComponent from 'components/TableComponent/DepositsTableCompo
 import TransactionsTableComponent from 'components/TableComponent/TransactionsTableComponent'
 import WithdrawalsTableComponent from 'components/TableComponent/WithdrawalsTableComponent'
 import React from 'react'
+import UsersTableComponent from 'components/TableComponent/UserTableComponent'
 
 
 function Dashboard() {
@@ -205,6 +206,7 @@ function Dashboard() {
       </MDBox>
 
       <div className="flex flex-col gap-[30px] pt-10">
+        <UsersTableComponent />
         <TransactionsTableComponent />
         <DepositsTableComponent />
         <WithdrawalsTableComponent />
