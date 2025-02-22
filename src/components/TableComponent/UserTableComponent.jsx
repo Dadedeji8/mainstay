@@ -1,7 +1,7 @@
 import { useAuth } from 'context/AuthContext'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, Menu, MenuItem, Select } from '@mui/material';
 import DataTable from 'examples/Tables/DataTable';
 import { MoreVert } from '@mui/icons-material';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
@@ -47,8 +47,10 @@ function UsersTableComponent() {
 export default UsersTableComponent
 
 const UserActionMenu = ({ rowId, wallet }) => {
+  const { adminUpdateUserWallet } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+
   const [walletAmount, setWalletAmount] = useState(wallet);
   const open = Boolean(anchorEl);
 
@@ -71,6 +73,8 @@ const UserActionMenu = ({ rowId, wallet }) => {
 
   const handleWalletUpdate = () => {
     // Logic to update wallet amount
+
+    adminUpdateUserWallet({ id: rowId, amount: walletAmount });
     console.log(`Updating wallet for user ${rowId} with amount ${walletAmount}`);
     handleDialogClose();
   };
@@ -102,6 +106,8 @@ const UserActionMenu = ({ rowId, wallet }) => {
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Update Wallet</DialogTitle>
         <DialogContent>
+
+          <p> <b> Previous Balance:</b> {wallet.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</p>
           <TextField
             autoFocus
             margin="dense"
@@ -112,6 +118,7 @@ const UserActionMenu = ({ rowId, wallet }) => {
             value={walletAmount}
             onChange={(e) => setWalletAmount(e.target.value)}
           />
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose}>Cancel</Button>
