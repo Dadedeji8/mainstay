@@ -215,12 +215,12 @@ const HomePageLayout = () => {
                 </Container>
 
             </Box> */}
-            <Box sx={{ padding: 10 }} className="bg-blue-700 p-5">
+            <Box sx={{ padding: 10 }} className="bg-blue-700 py-5">
                 <Box marginBottom={4}>
-                    <h2 className="text-2xl text-center  pb-5 uppercase font-black text-white">
+                    <h2 className="text-2xl text-center  pb-2 uppercase font-black text-white">
                         Find the loan that is right for you.
                     </h2>
-                    <div className="bg-white rounded p-2 w-32">
+                    <div className="bg-white rounded p-1 w-32 m-auto">
 
                     </div>
                 </Box>
@@ -318,7 +318,7 @@ const HomePageLayout = () => {
                                 It is why we are expanding beyond Alberta. With new locations in Kelowna, BC and Saskatoon, SK we see possibility all around us—in the goals and dreams of our clients and in the communities of all sizes that we serve.
                             </p>
                             <div className="flex-1">
-                                <img src={chartIMG} alt="" className="flex-1 object-cover " />
+                                <img src={chartIMG} alt="" className="flex-1 w-full object-cover " />
                             </div>
                         </Stack>
                     </Box>
@@ -331,160 +331,160 @@ const HomePageLayout = () => {
                         Our Services
                     </h3>
 
-                    <Carousel autoPlay >
+                    {/* <Carousel autoPlay emulateTouch  > */}
 
 
-                        <Stack direction={{ xs: 'column', md: "row" }} gap={3} marginTop={5}>
-                            <Card sx={{ maxWidth: 345 }} className="overflowx-none">
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    width={"100%"}
-                                    image={chartIMG}
-                                    alt="green iguana"
-                                    className="object-cover w-full"
-                                />
-                                <CardContent>
+                    <Stack direction={{ xs: 'column', md: "row" }} gap={3} marginTop={5}>
+                        <Card sx={{ maxWidth: 345, overflowX: 'none' }} className="overflowx-none">
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                // width={"100%"}
+                                image={chartIMG}
+                                alt="green iguana"
+                            // className="object-cover w-full"
+                            />
+                            <CardContent>
 
-                                    <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
-                                        Get custom financial services tailored to your goals.
-                                    </Typography>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Investing
-                                        Private Banking
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Access preferred accounts, custom borrowing and exclusive services from ATB Wealth.
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions>
+                                <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
+                                    Get custom financial services tailored to your goals.
+                                </Typography>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Investing
+                                    Private Banking
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Access preferred accounts, custom borrowing and exclusive services from ATB Wealth.
+                                </Typography>
+                            </CardContent>
+                            {/* <CardActions>
                                 <Button size="small">Start Now</Button>
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
-                            </Card>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={chartIMG}
-                                    alt="green iguana"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
-                                        Our goal is to help you reach yours.
-                                    </Typography>
+                        </Card>
+                        <Card sx={{ maxWidth: 345 }}>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={chartIMG}
+                                alt="green iguana"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
+                                    Our goal is to help you reach yours.
+                                </Typography>
 
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Private Investment Counsel
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Get real financial results with plans designed and managed by us, with the support of your financial advisors.
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Private Investment Counsel
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Get real financial results with plans designed and managed by us, with the support of your financial advisors.
+                                </Typography>
+                            </CardContent>
+                            {/* <CardActions>
                                 <Button size="small">Share</Button>
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
-                            </Card>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={chartIMG}
-                                    alt="green iguana"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
-                                        Protect your legacy with financial planning.
-                                    </Typography>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Wealth Planning
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Ensure your retirement, estate, trust and tax plans reflect your vision for the future.
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions>
+                        </Card>
+                        <Card sx={{ maxWidth: 345 }}>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={chartIMG}
+                                alt="green iguana"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
+                                    Protect your legacy with financial planning.
+                                </Typography>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Wealth Planning
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Ensure your retirement, estate, trust and tax plans reflect your vision for the future.
+                                </Typography>
+                            </CardContent>
+                            {/* <CardActions>
                                 <Button size="small">Share</Button>
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
-                            </Card>
-                        </Stack>
+                        </Card>
+                    </Stack>
 
-                        <Stack direction={{ xs: 'column', md: "row" }} gap={3} marginTop={5}>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={chartIMG}
-                                    alt="green iguana"
-                                />
-                                <CardContent>
+                    <Stack direction={{ xs: 'column', md: "row" }} gap={3} marginTop={5}>
+                        <Card sx={{ maxWidth: 345 }}>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={chartIMG}
+                                alt="green iguana"
+                            />
+                            <CardContent>
 
-                                    <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
-                                        Attract employees with financial benefits.
-                                    </Typography>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Group Wealth Services
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Increase employee engagement and loyalty with a customized benefits package.
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions>
+                                <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
+                                    Attract employees with financial benefits.
+                                </Typography>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Group Wealth Services
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Increase employee engagement and loyalty with a customized benefits package.
+                                </Typography>
+                            </CardContent>
+                            {/* <CardActions>
                                 <Button size="small">Start Now</Button>
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
-                            </Card>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={chartIMG}
-                                    alt="green iguana"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
-                                        Putting funding into practice.
-                                    </Typography>
+                        </Card>
+                        <Card sx={{ maxWidth: 345 }}>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={chartIMG}
+                                alt="green iguana"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
+                                    Putting funding into practice.
+                                </Typography>
 
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Practice Financing
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Consolidate educational debts, cover start-up costs, improve accounts receivable and more.
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Practice Financing
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Consolidate educational debts, cover start-up costs, improve accounts receivable and more.
+                                </Typography>
+                            </CardContent>
+                            {/* <CardActions>
                                 <Button size="small">Share</Button>
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
-                            </Card>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={chartIMG}
-                                    alt="green iguana"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
-                                        Institutional
-                                    </Typography>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Strengthen the future of your organization .
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Manage and grow your investments with help from portfolio managers who work with organizations that serve their local communities communities.
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions>
+                        </Card>
+                        <Card sx={{ maxWidth: 345 }}>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={chartIMG}
+                                alt="green iguana"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="body-3" className="text-[12px] text-blue-300" component="div">
+                                    Institutional
+                                </Typography>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Strengthen the future of your organization .
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Manage and grow your investments with help from portfolio managers who work with organizations that serve their local communities communities.
+                                </Typography>
+                            </CardContent>
+                            {/* <CardActions>
                                 <Button size="small">Share</Button>
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
-                            </Card>
-                        </Stack>
-                    </Carousel>
+                        </Card>
+                    </Stack>
+                    {/* </Carousel> */}
                 </Container>
             </Box>
         </PageLayout>
