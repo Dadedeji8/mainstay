@@ -519,6 +519,31 @@ export const AuthProvider = ({ children }) => {
         return
     }
 
+    function adminDisableUser({ id }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            targetUserId: id
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+
+        fetch(`${endpoint}/user`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
+            .catch((error) => console.error(error));
+        return
+    }
+
     function getDeposits({ id, userId }) {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
@@ -563,7 +588,7 @@ export const AuthProvider = ({ children }) => {
             setDeposits,
             withdrawals,
             setWithdrawals,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDisableUser
         }}>
             {children}
         </AuthenticationContext.Provider>
