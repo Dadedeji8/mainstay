@@ -191,7 +191,7 @@ function Dashboard() {
                     </Typography>
                     <Close color='warning' cursor="pointer" />
                   </Box>
-                  <Divider variant="middle"></Divider>
+                  <Divider variant="long"></Divider>
                 </Stack>
               </Card>
 
