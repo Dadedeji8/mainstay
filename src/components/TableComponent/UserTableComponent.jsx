@@ -4,7 +4,8 @@ import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import DataTable from 'examples/Tables/DataTable';
 import { MoreVert } from '@mui/icons-material';
-
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+import PropTypes from 'prop-types';
 
 
 function UsersTableComponent() {
@@ -16,7 +17,7 @@ function UsersTableComponent() {
     },
     isAdmin: user.isAdmin ? 'Admin' : 'User',
     createdAt: moment(user.createdAt).format('DD MMM yyy'),
-    action: <UserActionMenu rowId={user._id} />,
+    action: <UserActionMenu rowId={user._id} wallet={user.account.balance} />,
   }))
   return (
     <div className="">
@@ -45,8 +46,10 @@ function UsersTableComponent() {
 
 export default UsersTableComponent
 
-const UserActionMenu = () => {
+const UserActionMenu = ({ rowId, wallet }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [walletAmount, setWalletAmount] = useState(wallet);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -55,6 +58,21 @@ const UserActionMenu = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+    handleClose();
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleWalletUpdate = () => {
+    // Logic to update wallet amount
+    console.log(`Updating wallet for user ${rowId} with amount ${walletAmount}`);
+    handleDialogClose();
   };
 
   return (
@@ -79,8 +97,33 @@ const UserActionMenu = () => {
         }}
       >
         <MenuItem onClick={handleClose}>Disable</MenuItem>
-        <MenuItem onClick={handleClose}>Update Wallet</MenuItem>
+        <MenuItem onClick={handleDialogOpen}>Update Wallet</MenuItem>
       </Menu>
+      <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
+        <DialogTitle>Update Wallet</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Wallet Amount"
+            type="number"
+            fullWidth
+            variant="standard"
+            value={walletAmount}
+            onChange={(e) => setWalletAmount(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Cancel</Button>
+          <Button onClick={handleWalletUpdate}>Update</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
+};
+
+
+UserActionMenu.propTypes = {
+  rowId: PropTypes.string.isRequired,
+  wallet: PropTypes.number.isRequired,
 };
