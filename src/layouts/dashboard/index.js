@@ -22,6 +22,10 @@ import Projects from 'layouts/dashboard/components/Projects'
 import OrdersOverview from 'layouts/dashboard/components/OrdersOverview'
 import { Box, Button, Card, Divider, Stack, Typography } from '@mui/material'
 import { Cancel, Close, RemoveRedEye, RemoveRedEyeOutlined } from '@mui/icons-material'
+import DepositsTableComponent from 'components/TableComponent/DepositsTableComponent'
+import TransactionsTableComponent from 'components/TableComponent/TransactionsTableComponent'
+import WithdrawalsTableComponent from 'components/TableComponent/WithdrawalsTableComponent'
+import React from 'react'
 
 
 function Dashboard() {
@@ -199,6 +203,13 @@ function Dashboard() {
           </Grid>
         </MDBox>
       </MDBox>
+
+      <div className="flex flex-col gap-[30px] pt-10">
+        <TransactionsTableComponent />
+        <DepositsTableComponent />
+        <WithdrawalsTableComponent />
+
+      </div>
       <Footer />
     </DashboardLayout >
   )
