@@ -30,7 +30,10 @@ function WithdrawalsTableComponent() {
             { Header: 'Account Number', accessor: 'account.number', width: '20%' },
             { Header: 'Account Name', accessor: 'account.name' },
             { Header: 'Bank', accessor: 'account.bank' },
+            { Header: 'Description', accessor: 'description' },
             { Header: 'Status', accessor: 'status' },
+            { Header: 'Reason', accessor: 'reason' },
+
             { Header: 'Date', accessor: 'createdAt', width: '12%' },
             { Header: 'Action', accessor: 'action', width: '10%' },
           ],
@@ -44,6 +47,7 @@ function WithdrawalsTableComponent() {
 export default WithdrawalsTableComponent
 
 const WithdrawalActionMenu = ({ rowId }) => {
+  const { adminApproveWithdrawals } = useAuth()
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -68,8 +72,10 @@ const WithdrawalActionMenu = ({ rowId }) => {
   };
 
   const handleWalletUpdate = () => {
+    if (!reason) return window.alert("Please provide a reason for rejection");
     // Logic to update wallet amount
-    console.log(`Reject Withdrawal ${rowId} for Reason: ${reason}`);
+    // console.log(`Reject Withdrawal ${rowId} for Reason: ${reason}`);
+    adminApproveWithdrawals({ id: rowId, status: "rejected", reason });
     handleDialogClose();
   };
 
@@ -94,7 +100,10 @@ const WithdrawalActionMenu = ({ rowId }) => {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Approve</MenuItem>
+        <MenuItem onClick={() => {
+          adminApproveWithdrawals({ id: rowId, status: "approved", reason: "Okay" });
+          handleClose()
+        }}>Approve</MenuItem>
         <MenuItem onClick={handleDialogOpen}>Reject</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
@@ -123,43 +132,3 @@ const WithdrawalActionMenu = ({ rowId }) => {
 WithdrawalActionMenu.propTypes = {
   rowId: PropTypes.string.isRequired,
 };
-
-// const WithdrawalActionMenu = () => {
-//   const [anchorEl, setAnchorEl] = useState(null);
-//   const open = Boolean(anchorEl);
-
-//   const handleClick = (event) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
-
-//   return (
-//     <div>
-//       <IconButton
-//         aria-label="more"
-//         aria-controls="long-menu"
-//         aria-haspopup="true"
-//         onClick={handleClick}
-//       >
-//         <MoreVert />
-//       </IconButton>
-//       <Menu
-//         anchorEl={anchorEl}
-//         open={open}
-//         onClose={handleClose}
-//         PaperProps={{
-//           style: {
-//             maxHeight: 48 * 4.5,
-//             width: '20ch',
-//           },
-//         }}
-//       >
-//         <MenuItem onClick={handleClose}>Approve</MenuItem>
-//         <MenuItem onClick={handleClose}>Reject</MenuItem>
-//       </Menu>
-//     </div>
-//   );
-// };
