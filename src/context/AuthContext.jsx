@@ -544,17 +544,34 @@ export const AuthProvider = ({ children }) => {
             .then((result) => setProfile(result))
             .catch((error) => console.error(error));
     }
-
     const login = (token) => {
         localStorage.setItem('token', token);
         setIsAuthenticated(true);
     };
+    const registerUser = async (data) => {
+        try {
+            const response = await fetch(`${endpoint}/auth/register`,
+                {
+                    method: 'POST', headers: {
+                        'Content-Type': 'application/json',
+                        body: JSON.stringify(data)
+                    }
+                })
+            if (!response.ok) {
+                throw new Error('Failed to register')
 
+            }
+            const result = await response.json();
+            console.log('User registered successfully:', result);
+        } catch (error) {
+            console.error('Error registering user:', error);
+            // Handle error (e.g., show error message to user)
+        }
+    };
     const logout = () => {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
     };
-
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, login, logout, token, endpoint, transactionsHistory,
@@ -572,6 +589,6 @@ export const AuthProvider = ({ children }) => {
 
 AuthProvider.propTypes = { children: PropTypes.node.isRequired, };
 
-export const useAuth = () => {
-    return useContext(AuthenticationContext);
-};
+// export const useAuth = () => {
+//     return useContext(AuthenticationContext);
+// };
