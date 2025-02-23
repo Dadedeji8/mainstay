@@ -45,7 +45,7 @@ import Profile from 'layouts/profile'
 import SignIn from 'layouts/authentication/sign-in'
 import SignUp from 'layouts/authentication/sign-up'
 import HomePage from 'layouts/authentication/sign-up'
-
+import MakeTransaction from 'layouts/makeTransactions/MakeTransaction.jsx'
 // @mui icons
 import Icon from '@mui/material/Icon'
 import HistoryPage from 'layouts/History/HistoryPage'
@@ -69,11 +69,11 @@ const routes = [
   },
   {
     type: 'collapse',
-    name: 'Deposit',
-    key: 'tables',
+    name: 'Make Transaction',
+    key: 'make transaction',
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: '/history',
-    component: <Tables />,
+    route: '/maketransaction',
+    component: <MakeTransaction />,
   },
   {
     type: 'collapse',

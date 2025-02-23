@@ -40,7 +40,7 @@ const HomePageLayout = () => {
                 <Container  >
                     <Stack direction={{ xs: 'column', md: "row" }} padding={5} alignItems={'center'} sx={{ height: '100%', gap: 5 }} justifyContent={'center'}>
                         <div className="md:flex flex-1 flex-col gap-5 justify-center h-full">
-                            <h1 className=' text-white flex-1 md:text-[60px] text-3xl uppercase font-black'>
+                            <h1 className='text-white flex-1 md:text-[60px] text-3xl uppercase font-black'>
                                 Borrowing
                             </h1>
                             <p className="text-white font-thin tracking-wide mt-5 mb-6 leading-8 ">
