@@ -116,13 +116,13 @@ function Header({ children }) {
                 }
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                {profile.email} <span className='underline text-red-500'>{profile.emailVaried ? ' verified' : ' Not Verified'}</span>
+                {profile?.email} <span className='underline text-red-500'>{profile?.emailVerified ? ' verified' : ' Not Verified'}</span>
               </MDTypography>
             </MDBox>
           </Grid>
           <Grid item>
             <Box className='rounded-2xl bg-lime-200 p-1 px-3'><MDTypography variant={'body2'}>
-              <Money />  Account Balance: <span className='text-blue-950'>${profile.account.balance}</span>
+              <Money />  Account Balance: <span className='text-blue-950'>${profile?.account?.balance || 0}</span>
             </MDTypography></Box>
           </Grid>
         </Grid>

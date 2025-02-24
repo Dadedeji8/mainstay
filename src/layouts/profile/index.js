@@ -58,7 +58,7 @@ function Overview() {
             <OtherHousesOutlined /> Account Type:<span className='text-blue-950 font-bold'> Regular</span>
           </MDTypography>
           <MDTypography variant={'body2'}>
-            <Check /> Verification Status: <span className='text-blue-950 font-bold'>{profile?.emailVaried ? 'verified' : 'Not Verified'}</span>
+            <Check /> Verification Status: <span className='text-blue-950 font-bold'>{profile?.emailVerified ? 'verified' : 'Not Verified'}</span>
           </MDTypography>
 
         </MDBox>
