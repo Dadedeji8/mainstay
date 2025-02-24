@@ -38,7 +38,9 @@ import breakpoints from 'assets/theme/base/breakpoints'
 import ProfileImg from 'assets/images/ProfileIMG.jpg'
 import backgroundImage from 'assets/images/bg-profile.jpeg'
 import { Money } from '@mui/icons-material'
-import { Box } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import MDInput from 'components/MDInput'
+import MDButton from 'components/MDButton'
 
 function Header({ children }) {
   const { profile } = useAuth()
@@ -66,6 +68,15 @@ function Header({ children }) {
   }, [tabsOrientation])
   const handleSetTabValue = (event, newValue) => setTabValue(newValue)
   useEffect(() => { console.log('this is data from profile page', profile) }, [])
+  const [open, setOpen] = useState(false)
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
     <MDBox position="relative" mb={5}>
       <MDBox
@@ -125,8 +136,37 @@ function Header({ children }) {
               <Money />  Account Balance: <span className='text-blue-950'>${profile?.account?.balance || 0}</span>
             </MDTypography></Box>
           </Grid>
+          <Grid item>
+            <Box className=''>
+              <Button variant='outlined' className='text-blue-900' onClick={handleClickOpen}>
+                Edit Profile
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
         {children}
+        <Dialog open={open} onClose={handleClose} className=''>
+          <div className='min-w-[350px]'>
+            <DialogTitle>{"Update Profile"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                <MDInput className='w-full' label='Username' type='text' />
+                <MDInput className='w-full' label='Email' type='text' />
+                <MDInput className='w-full' label='Username' type='text' />
+                <MDInput className='w-full' type='password' />
+                <MDInput className='w-full' type='password' />
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions className='flex'>
+              <MDButton color="primary" className='w-full'>
+                Submit
+              </MDButton>
+              <MDButton onClick={handleClose} color="error">
+                Close
+              </MDButton>
+            </DialogActions>
+          </div>
+        </Dialog>
       </Card>
     </MDBox>
   )

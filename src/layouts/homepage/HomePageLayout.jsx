@@ -13,12 +13,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
-import { column } from "stylis";
+import { column, token } from "stylis";
 import chartIMG from '../../assets/images/chart.jpg'
 import { useNavigate } from "react-router-dom";
 const HomePageLayout = () => {
     const navigate = useNavigate()
     // };
+
     const { isAuthenticated } = useAuth()
     useEffect(() => {
         // return () => {
