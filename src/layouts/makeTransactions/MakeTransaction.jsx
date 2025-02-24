@@ -19,6 +19,7 @@ const MakeTransaction = () => {
         setOpen(false)
     }
 
+
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -39,12 +40,14 @@ const MakeTransaction = () => {
                 <div>
                     <MDBox component="form" className='mt-5' sx={{ Margin: 1 }}>
                         <div className='flex gap-1'>
-                            <MDInput fullWidth label="account number" type="number" mb={2} />
-                            <MDInput fullWidth label="Bank Name" type="text" mb={2} />
+                            <MDInput fullWidth label={activeTab ? `Account Number` : 'Deposit ID'} type={activeTab ? 'number' : 'text'} mb={2} />
+                            <MDInput fullWidth label={activeTab ? `Bank Name` : 'Amount'} type="text" mb={2} />
                         </div>
-                        <div className='flex gap-1 mt-2'>
+                        {activeTab ? <div className='flex gap-1 mt-2'>
+                            <MDInput fullWidth label="account Name" type="text" mb={2} />
                             <MDInput fullWidth label="Amount($)" type="number" mb={2} />
-                        </div>
+                        </div> : ""}
+
                         <MDButton size='large' variant={'contained'} color={'primary'} className="w-full mt-5" onClick={handleClickOpen}>
                             Submit to proceed
                         </MDButton>

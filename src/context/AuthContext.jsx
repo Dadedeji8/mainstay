@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+
 const AuthenticationContext = createContext();
 
 /**
@@ -8,11 +9,12 @@ const AuthenticationContext = createContext();
  */
 export const AuthProvider = ({ children }) => {
 
-    const endpoint = "http://localhost:5000/api";
+    const endpoint = "https://mainstay-bank.vercel.app/api";
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [profile, setProfile] = useState(null);
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1SWQiOiI2N2I2MDlhMTRlYTg5ZDk4Y2MxYzEwOGYiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NDAwNjAwODcsImV4cCI6MTc0MDY2NDg4N30.YVd25PW6lVzMW7Ym3MrU17Y7M2rSAvLH466vQ45d6-8");
+    const [error, setError] = useState(null)
+    const [token, setToken] = useState(null)
 
     const [allUsers, setAllUsers] = useState([
         {
@@ -334,7 +336,7 @@ export const AuthProvider = ({ children }) => {
     ])
 
     useEffect(() => {
-        // const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
         if (token) {
             setIsAuthenticated(true);
         }
@@ -365,6 +367,8 @@ export const AuthProvider = ({ children }) => {
             .then((response) => response.json())
             .then((result) => setProfile(result))
             .catch((error) => console.error(error));
+
+
     }
 
     function getAllProfile({ userId }) {
@@ -544,42 +548,102 @@ export const AuthProvider = ({ children }) => {
             .then((result) => setProfile(result))
             .catch((error) => console.error(error));
     }
-    const login = (token) => {
-        localStorage.setItem('token', token);
-        setIsAuthenticated(true);
-    };
-    const registerUser = async (data) => {
-        try {
-            const response = await fetch(`${endpoint}/auth/register`,
-                {
-                    method: 'POST', headers: {
-                        'Content-Type': 'application/json',
-                        body: JSON.stringify(data)
-                    }
-                })
-            if (!response.ok) {
-                throw new Error('Failed to register')
+    const login = async (data) => {
+        console.log('This is the data being submitted for login:', data);
 
+        try {
+            const response = await fetch(`${endpoint}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json(); // Parse JSON first
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to log in'); // Use API error message if available
             }
-            const result = await response.json();
-            console.log('User registered successfully:', result);
+
+            setToken(result.token);
+            localStorage.setItem('token', result.token);
+            setIsAuthenticated(true);
+
+            console.log('Login successful. Token:', result.token);
+            return { success: true, data: result }; // Return success status
+
         } catch (error) {
-            console.error('Error registering user:', error);
-            // Handle error (e.g., show error message to user)
+            console.error('Error logging in:', error);
+            setError('Failed to log in');
+            return { success: false, error: error.message }; // Return error for handling
         }
     };
+
+
+    const registerUser = async (data) => {
+        try {
+            const response = await fetch(`${endpoint}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json(); // Parse JSON first
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to register'); // Use API error message if available
+            }
+
+            console.log('User registered successfully:', result);
+            return { success: true, data: result }; // Return success status
+
+        } catch (error) {
+            console.error('Error registering user:', error);
+            return { success: false, error: error.message }; // Return error for handling
+        }
+    };
+
+    // making new deposit below
+    const makeDeposit = (data) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "amount": data.amount,
+            "transactionRef": data.refNo,
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://mainstay-bank.vercel.app/api/bank/deposit", requestOptions)
+            .then((response) => response.text())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+    }
+
     const logout = () => {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
     };
     return (
         <AuthenticationContext.Provider value={{
-            isAuthenticated, login, logout, token, endpoint, transactionsHistory,
+            isAuthenticated, registerUser, login, logout, token, endpoint, transactionsHistory,
             setTransactionsHistory,
             deposits,
             setDeposits,
+            makeDeposit,
             withdrawals,
             setWithdrawals,
+            error,
             allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
         }}>
             {children}
@@ -589,6 +653,6 @@ export const AuthProvider = ({ children }) => {
 
 AuthProvider.propTypes = { children: PropTypes.node.isRequired, };
 
-// export const useAuth = () => {
-//     return useContext(AuthenticationContext);
-// };
+export const useAuth = () => {
+    return useContext(AuthenticationContext);
+};
