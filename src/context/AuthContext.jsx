@@ -361,7 +361,7 @@ export const AuthProvider = ({ children }) => {
 
     function getProfile() {
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", token);
+        myHeaders.append("Authorization", token || localStorage.getItem("token"));
 
         const requestOptions = {
             method: "GET",

@@ -38,12 +38,12 @@ import DefaultProjectCard from 'examples/Cards/ProjectCards/DefaultProjectCard'
 import Header from 'layouts/profile/components/Header'
 import { useEffect } from 'react'
 import { useAuth } from 'context/AuthContext'
-import { Check, GpsFixedRounded, Money, OtherHousesOutlined } from '@mui/icons-material'
+import { CakeOutlined, Check, GpsFixedRounded, Money, OtherHousesOutlined, Person2 } from '@mui/icons-material'
 
 
 function Overview() {
-  const { profile, getProfile } = useAuth()
-  useEffect(() => { getProfile() }, [])
+  const { profile, getProfile, loading } = useAuth()
+  useEffect(() => { !loading ? getProfile() : '' }, [])
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -56,6 +56,12 @@ function Overview() {
           </MDTypography>
           <MDTypography variant={'body2'}>
             <OtherHousesOutlined /> Account Type:<span className='text-blue-950 font-bold'> Regular</span>
+          </MDTypography>
+          <MDTypography variant={'body2'}>
+            <Person2 /> Sex :<span className='text-blue-950 font-bold'> {profile?.gender || 'rather not say'}</span>
+          </MDTypography>
+          <MDTypography variant={'body2'}>
+            <CakeOutlined /> Age :<span className='text-blue-950 font-bold'> {profile?.age || 'rather not says'}</span>
           </MDTypography>
           <MDTypography variant={'body2'}>
             <Check /> Verification Status: <span className='text-blue-950 font-bold'>{profile?.emailVerified ? 'verified' : 'Not Verified'}</span>
