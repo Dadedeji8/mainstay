@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react'
 
 // prop-types is a library for typechecking of props.
 import PropTypes from 'prop-types'
-
+import { useAuth } from 'context/AuthContext'
 // @mui material components
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
@@ -35,10 +35,13 @@ import MDAvatar from 'components/MDAvatar'
 import breakpoints from 'assets/theme/base/breakpoints'
 
 // Images
-import burceMars from 'assets/images/bruce-mars.jpg'
+import ProfileImg from 'assets/images/ProfileIMG.jpg'
 import backgroundImage from 'assets/images/bg-profile.jpeg'
+import { Money } from '@mui/icons-material'
+import { Box } from '@mui/material'
 
 function Header({ children }) {
+  const { profile } = useAuth()
   const [tabsOrientation, setTabsOrientation] = useState('horizontal')
   const [tabValue, setTabValue] = useState(0)
 
@@ -61,9 +64,8 @@ function Header({ children }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleTabsOrientation)
   }, [tabsOrientation])
-
   const handleSetTabValue = (event, newValue) => setTabValue(newValue)
-
+  useEffect(() => { console.log('this is data from profile page', profile) }, [])
   return (
     <MDBox position="relative" mb={5}>
       <MDBox
@@ -98,7 +100,7 @@ function Header({ children }) {
         <Grid container spacing={3} alignItems="center">
           <Grid item>
             <MDAvatar
-              src={burceMars}
+              src={ProfileImg}
               alt="profile-image"
               size="xl"
               shadow="sm"
@@ -107,46 +109,21 @@ function Header({ children }) {
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
               <MDTypography variant="h5" fontWeight="medium">
-                Richard Davis
+                {<MDTypography variant="h5" fontWeight="medium">
+                  {profile?.fullName
+                  }
+                </MDTypography>
+                }
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                CEO / Co-Founder
+                {profile.email} <span className='underline text-red-500'>{profile.emailVaried ? ' verified' : ' Not Verified'}</span>
               </MDTypography>
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={4} sx={{ ml: 'auto' }}>
-            <AppBar position="static">
-              <Tabs
-                orientation={tabsOrientation}
-                value={tabValue}
-                onChange={handleSetTabValue}
-              >
-                <Tab
-                  label="App"
-                  icon={
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      home
-                    </Icon>
-                  }
-                />
-                <Tab
-                  label="Message"
-                  icon={
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      email
-                    </Icon>
-                  }
-                />
-                <Tab
-                  label="Settings"
-                  icon={
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      settings
-                    </Icon>
-                  }
-                />
-              </Tabs>
-            </AppBar>
+          <Grid item>
+            <Box className='rounded-2xl bg-lime-200 p-1 px-3'><MDTypography variant={'body2'}>
+              <Money />  Account Balance: <span className='text-blue-950'>${profile.account.balance}</span>
+            </MDTypography></Box>
           </Grid>
         </Grid>
         {children}

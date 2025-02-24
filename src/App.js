@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-
+import ProtectedRoute from 'components/ProtectedRoutes/ProtectedRoutes'
 // react-router components
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
@@ -31,6 +31,8 @@ import createCache from '@emotion/cache'
 // Material Dashboard 2 React routes
 import routes from 'routes'
 import HomePageLayout from 'layouts/homepage/HomePageLayout'
+import SignIn from 'layouts/authentication/sign-in'
+import SignUp from 'layouts/authentication/sign-up'
 // Material Dashboard 2 React contexts
 import {
   useMaterialUIController,
@@ -43,6 +45,8 @@ import brandWhite from 'assets/images/logo-ct.png'
 import brandDark from 'assets/images/logo-ct-dark.png'
 
 export default function App() {
+
+
   const [controller, dispatch] = useMaterialUIController()
   const {
     miniSidenav,
@@ -84,7 +88,7 @@ export default function App() {
     }
   }
 
-  const navRoutes = routes.filter((route) => { return route.name !== 'Sign Up' })
+  // const navRoutes = routes.filter((route) => { return route.name !== 'Sign Up' })
 
 
   // Change the openConfigurator state
@@ -160,7 +164,7 @@ export default function App() {
                   : brandWhite
               }
               brandName="Mainstay Bank"
-              routes={navRoutes}
+              routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
             />
@@ -170,8 +174,9 @@ export default function App() {
         )}
         {layout === 'vr' && <Configurator />}
         <Routes>
+
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/" />} />
 
         </Routes>
       </ThemeProvider>
@@ -185,7 +190,7 @@ export default function App() {
             color={sidenavColor}
             // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="MAINSTAY BANK"
-            routes={navRoutes}
+            routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
@@ -195,9 +200,16 @@ export default function App() {
       )}
       {/* {layout === "vr" && <Configurator />} */}
       <Routes>
-        {getRoutes(routes)}
+        <Route element={<ProtectedRoute />}>
+          {getRoutes(routes)}
+        </Route>
+
+
         <Route path="/" element={<HomePageLayout />} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="/authentication/sign-in" element={<SignIn />} />
+        <Route path="/authentication/sign-up" element={<SignUp />} />
+        <Route path="*" element={<Navigate to="/" />} />
+
       </Routes>
     </ThemeProvider>
   )

@@ -5,7 +5,8 @@ import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import HeroImg from "../../assets/images/HeroImg.jpg";
 import sideImg from '../../assets/images/46908.jpg'
 import sideImg2 from '../../assets/images/8919.jpg'
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { useAuth } from "context/AuthContext";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,7 +15,16 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { column } from "stylis";
 import chartIMG from '../../assets/images/chart.jpg'
+import { useNavigate } from "react-router-dom";
 const HomePageLayout = () => {
+    const navigate = useNavigate()
+    // };
+    const { isAuthenticated } = useAuth()
+    useEffect(() => {
+        // return () => {
+
+        isAuthenticated == true ? navigate('/dashboard') : navigate('/');
+    }, [])
     return <Box sx={{ maxWidth: "100%", overflow: 'hidden' }}>
         <PageLayout>
             <DefaultNavbar />
@@ -32,7 +42,7 @@ const HomePageLayout = () => {
                         Borrowing solutions tailored to your needs.
                     </h1>
 
-                    <p >A line of credit is a loan you can access on demand—no questions asked</p>
+                    <p className="mt-3">A line of credit is a loan you can access on demand—no questions asked</p>
                     <Button sx={{ color: 'white', marginTop: 5 }} variant="contained" size="large" color="white" > Learn More</Button>
                 </Box>
             </Box>

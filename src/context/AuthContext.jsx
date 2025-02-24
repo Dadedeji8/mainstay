@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     const [profile, setProfile] = useState(null);
     const [error, setError] = useState(null)
     const [token, setToken] = useState(null)
-
+    const [loading, setLoading] = useState(true);
     const [allUsers, setAllUsers] = useState([
         {
             "account": {
@@ -336,11 +336,17 @@ export const AuthProvider = ({ children }) => {
     ])
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        console.log("Checking authentication...");
+        const token = localStorage.getItem("token");
+
         if (token) {
             setIsAuthenticated(true);
+            console.log("User is authenticated");
         }
+
+        setLoading(false); //  Mark loading as complete
     }, []);
+
     useEffect(() => {
         if (!token) {
             return;
@@ -364,11 +370,24 @@ export const AuthProvider = ({ children }) => {
         };
 
         fetch(`${endpoint}/user/profile`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => setProfile(result))
-            .catch((error) => console.error(error));
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((result) => {
+                console.log("Fetched profile result:", result);
 
+                if (!result || Object.keys(result).length === 0) {
+                    throw new Error("Received empty response from API");
+                }
 
+                setProfile(result); //  Update state
+
+                localStorage.setItem("profile", JSON.stringify(result));
+            })
+            .catch((error) => console.error("Error fetching profile:", error));
     }
 
     function getAllProfile({ userId }) {
@@ -636,9 +655,18 @@ export const AuthProvider = ({ children }) => {
     };
     return (
         <AuthenticationContext.Provider value={{
-            isAuthenticated, registerUser, login, logout, token, endpoint, transactionsHistory,
+            isAuthenticated,
+            registerUser,
+            login,
+            logout,
+            token,
+            endpoint,
+            transactionsHistory,
+            getProfile,
             setTransactionsHistory,
             deposits,
+            profile,
+            loading,
             setDeposits,
             makeDeposit,
             withdrawals,

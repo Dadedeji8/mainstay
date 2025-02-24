@@ -207,8 +207,8 @@ DefaultNavbar.propTypes = {
   action: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
-      type: PropTypes.oneOf(['external', 'internal']).isRequired,
-      route: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(['external', 'internal']),
+      route: PropTypes.string,
       color: PropTypes.oneOf([
         'primary',
         'secondary',
