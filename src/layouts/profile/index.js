@@ -52,13 +52,13 @@ function Overview() {
         <MDBox mt={5} mb={3}>
 
           <MDTypography variant={'body2'}>
-            <GpsFixedRounded /> Location: <span className='text-blue-950 font-bold'>{profile.country}</span>
+            <GpsFixedRounded /> Location: <span className='text-blue-950 font-bold'>{profile?.country}</span>
           </MDTypography>
           <MDTypography variant={'body2'}>
             <OtherHousesOutlined /> Account Type:<span className='text-blue-950 font-bold'> Regular</span>
           </MDTypography>
           <MDTypography variant={'body2'}>
-            <Check /> Verification Status: <span className='text-blue-950 font-bold'>{profile.emailVaried ? 'verified' : 'Not Verified'}</span>
+            <Check /> Verification Status: <span className='text-blue-950 font-bold'>{profile?.emailVaried ? 'verified' : 'Not Verified'}</span>
           </MDTypography>
 
         </MDBox>
