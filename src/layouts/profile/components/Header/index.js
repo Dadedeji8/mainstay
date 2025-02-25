@@ -59,7 +59,9 @@ function Header({ children }) {
     try {
       setUpdating(true)
       updateProfile(profileStage)
+      console.log('this is what is being submited', profileStage)
       getProfile()
+      handleClose()
       console.log('update profile successful')
     } catch (error) {
       console.log(error)
@@ -236,7 +238,7 @@ function Header({ children }) {
               </DialogContentText>
             </DialogContent>
             <DialogActions className='flex'>
-              <MDButton color="primary" className={`w-full ${updating ? 'bg-green' : ''}`} onClick={() => updateProfileDetails()}>
+              <MDButton color="primary" className={`w-full ${updating ? 'bg-green-400' : ''}`} onClick={() => updateProfileDetails()}>
                 {updating ? ' Submiting' : 'submit'}
               </MDButton>
               <MDButton onClick={handleClose} color="error">

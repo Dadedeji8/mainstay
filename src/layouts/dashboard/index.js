@@ -27,17 +27,18 @@ import TransactionsTableComponent from 'components/TableComponent/TransactionsTa
 import WithdrawalsTableComponent from 'components/TableComponent/WithdrawalsTableComponent'
 import React from 'react'
 import UsersTableComponent from 'components/TableComponent/UserTableComponent'
+import { useAuth } from 'context/AuthContext'
 
 
 function Dashboard() {
   const [showValue, setShowValue] = useState(false)
   const { sales, tasks } = reportsLineChartData
-
+  const { isAdmin } = useAuth()
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox py={3}>
-        <Grid container spacing={3}>
+        {isAdmin ? <Grid container spacing={3} >
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -97,7 +98,7 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
-        </Grid>
+        </Grid> : ''}
         {/* <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>

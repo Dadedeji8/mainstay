@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null)
     const [token, setToken] = useState(null)
     const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false)
     const [allUsers, setAllUsers] = useState([
         {
             "account": {
@@ -384,40 +385,49 @@ export const AuthProvider = ({ children }) => {
                 }
 
                 setProfile(result); //  Update state
-
+                setIsAdmin(result.isAdmin)
                 localStorage.setItem("profile", JSON.stringify(result));
+                localStorage.setItem("isAdmin", JSON.stringify(result.isAdmin));
             })
             .catch((error) => console.error("Error fetching profile:", error));
     }
-    function updateProfile(data) {
+    async function updateProfile(data, onSuccess, onError) {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("No authentication token found");
+            return;
+        }
+
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", token || localStorage.getItem("token"));
+        myHeaders.append("Authorization", `${token}`);
+        myHeaders.append("Content-Type", "application/json");
 
         const requestOptions = {
             method: "PUT",
             headers: myHeaders,
+            body: JSON.stringify(data),
             redirect: "follow",
-            body: JSON.stringify(data)
         };
 
-        fetch(`${endpoint}/user/profile`, requestOptions)
+        await fetch(`${endpoint}/user/profile`, requestOptions)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json().then((err) => {
+                        throw new Error(`Error ${response.status}: ${err.message || "Unknown error"}`);
+                    });
                 }
                 return response.json();
             })
             .then((result) => {
-                console.log("Fetched profile result:", result);
-
-                if (!result || Object.keys(result).length === 0) {
-                    throw new Error("Received empty response from API");
-                }
-
-
+                console.log("Profile updated successfully:", result);
+                if (onSuccess) onSuccess(result);
             })
-            .catch((error) => console.error("Error fetching profile:", error));
+            .catch((error) => {
+                console.error("Error updating profile:", error.message);
+                if (onError) onError(error);
+            });
     }
+
 
 
     function getAllProfile({ userId }) {
