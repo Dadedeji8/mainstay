@@ -31,8 +31,7 @@ import { useAuth } from 'context/AuthContext'
 
 
 function Dashboard() {
-  const [showValue, setShowValue] = useState(false)
-  const { sales, tasks } = reportsLineChartData
+
   const { isAdmin } = useAuth()
   return (
     <DashboardLayout>
@@ -46,11 +45,6 @@ function Dashboard() {
                 icon="money"
                 title="Total Balance"
                 count={"$40433"}
-              // percentage={{
-              //   color: 'success',
-              //   amount: '+55%',
-              //   label: 'than lask week',
-              // }}
               />
             </MDBox>
           </Grid>
@@ -99,123 +93,463 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid> : ''}
-        {/* <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
-              </MDBox>
-            </Grid>
-          </Grid>
-        </MDBox> */}
+
         <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={4} >
-
-              <div className={`h-[200px] flex flex-col justify-between p-4 rounded-xl shadow cardImg`}>
-                <div>
-                  <Box className={'flex'}>
-                    <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
-                      Account Overview
-                    </Typography>
-                  </Box>
-                  <div className="flex flex-row items-center gap-3">
-
-                    <Typography variant='h2' color={"primary"}>
-                      {showValue ? 180000 : "*****"}
-                    </Typography>
-                    <span onClick={() => { setShowValue(!showValue) }} className='flex items-center'>
-                      {showValue ? <RemoveRedEyeOutlined color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} /> : <RemoveRedEye color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} />}
-                    </span>
-                  </div>
-                </div>
-                <Box className="flex gap-3">
-                  <Button variant='contained' sx={{ color: "#ffffff" }} size='medium' color='primary'>
-                    Transfer
-                  </Button>
-                  <Button variant='contained' size='medium' sx={{ color: "#ffffff" }} color='primary'>
-                    Deposit
-                  </Button>
-                </Box>
-
+          <Grid container spacing={3} className='flex-col-reverse md:flex-row'>
+            <Grid item xs={12} md={6} lg={7.5}>
+              <div className="flex flex-col gap-[30px]">
+                <TransactionsTableComponent />
+                <DepositsTableComponent />
+                <WithdrawalsTableComponent />
               </div>
-
             </Grid>
-            <Grid item xs={12} lg={8}>
-              <Projects />
-            </Grid>
+            <Grid item rowSpacing={3} className='inline-flex  -0  md:fixed top-[96px] right-[3%] ' xs={12} md={6} lg={4.5}>
+              <MDBox
+                className="flex flex-col gap-[15px] w-full"
 
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid> */}
+              >
 
-          </Grid>
-        </MDBox>
-        <MDBox className={'mt-5'}>
-          <Grid container>
-            <Grid item lg={6}>
-              <Card padding={2} sx={{ padding: 2 }}>
-                <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
-                  Notification
-                </Typography>
-                <Stack>
-                  <Box padding={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant='body2'>
-                      Your withdraw request Has been approved
-                    </Typography>
-                    <Close color='warning' cursor="pointer" />
-                  </Box>
-                  <Divider variant="long"></Divider>
-                </Stack>
-              </Card>
+                <AccountOverviewComponent />
+                <NotificationComponent />
+              </MDBox>
 
             </Grid>
           </Grid>
         </MDBox>
       </MDBox>
-
-      <div className="flex flex-col gap-[30px] pt-10">
-        <UsersTableComponent />
-        <TransactionsTableComponent />
-        <DepositsTableComponent />
-        <WithdrawalsTableComponent />
-
-      </div>
       <Footer />
-    </DashboardLayout >
+    </DashboardLayout>
   )
 }
 
 export default Dashboard
+
+
+function AccountOverviewComponent() {
+  const [showValue, setShowValue] = useState(false)
+  const { sales, tasks } = reportsLineChartData
+  return (
+    <div className={`h-[200px] flex flex-col justify-between p-4 rounded-xl shadow cardImg`}>
+      <div>
+        <Box className={'flex'}>
+          <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
+            Account Overview
+          </Typography>
+        </Box>
+        <div className="flex flex-row items-center gap-3">
+
+          <Typography variant='h2' color={"primary"}>
+            {showValue ? 180000 : "*****"}
+          </Typography>
+          <span onClick={() => { setShowValue(!showValue) }} className='flex items-center'>
+            {showValue ? <RemoveRedEyeOutlined color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} /> : <RemoveRedEye color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} />}
+          </span>
+        </div>
+      </div>
+      <Box className="flex gap-3">
+        <Button variant='contained' sx={{ color: "#ffffff" }} size='medium' color='primary'>
+          Transfer
+        </Button>
+        <Button variant='contained' size='medium' sx={{ color: "#ffffff" }} color='primary'>
+          Deposit
+        </Button>
+      </Box>
+
+    </div>
+  )
+}
+
+function NotificationComponent() {
+  const [showValue, setShowValue] = useState(false)
+  const [Notification, setNotification] = useState([
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+    {
+      "_id": "67b737148b72ebd0b45b06af"
+      ,
+      "userId": null,
+      "message": "this is a test notification to everyone",
+      "createdAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "updatedAt": "2025-02-20T14:07:16.446Z"
+      ,
+      "__v": 0
+    },
+  ])
+  const { sales, tasks } = reportsLineChartData
+
+
+  return (
+    <Card padding={2} sx={{ padding: 2 }} className='h-[240px]  overf low-y-scroll'>
+      <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
+        Notification
+      </Typography>
+      <Stack className='h-[200px]  overflow-y-scroll' >
+
+        {
+          Notification.map((item, index) => {
+            return (
+              <Box padding={1} sx={{ display: 'flex', justifyContent: 'space-between' }} key={index}>
+                <Typography variant='body2'>
+                  {item.message}
+                </Typography>
+                <Divider variant="long"></Divider>
+              </Box>
+            )
+          })
+        }
+
+      </Stack>
+    </Card>
+  )
+}

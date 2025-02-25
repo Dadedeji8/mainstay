@@ -75,14 +75,14 @@ const routes = [
     route: '/maketransaction',
     component: <MakeTransaction />,
   },
-  {
-    type: 'collapse',
-    name: 'Withdraw',
-    key: 'billing',
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: '/billing',
-    component: <Billing />,
-  },
+  // {
+  //   type: 'collapse',
+  //   name: 'Withdraw',
+  //   key: 'billing',
+  //   icon: <Icon fontSize="small">receipt_long</Icon>,
+  //   route: '/billing',
+  //   component: <Billing />,
+  // },
 
   {
     type: 'collapse',
