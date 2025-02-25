@@ -31,8 +31,7 @@ import { useAuth } from 'context/AuthContext'
 
 
 function Dashboard() {
-  const [showValue, setShowValue] = useState(false)
-  const { sales, tasks } = reportsLineChartData
+
   const { isAdmin } = useAuth()
   return (
     <DashboardLayout>
@@ -99,78 +98,12 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid> : ''}
-        {/* <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
-              </MDBox>
-            </Grid>
-          </Grid>
-        </MDBox> */}
+
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={4} >
 
-              <div className={`h-[200px] flex flex-col justify-between p-4 rounded-xl shadow cardImg`}>
-                <div>
-                  <Box className={'flex'}>
-                    <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
-                      Account Overview
-                    </Typography>
-                  </Box>
-                  <div className="flex flex-row items-center gap-3">
-
-                    <Typography variant='h2' color={"primary"}>
-                      {showValue ? 180000 : "*****"}
-                    </Typography>
-                    <span onClick={() => { setShowValue(!showValue) }} className='flex items-center'>
-                      {showValue ? <RemoveRedEyeOutlined color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} /> : <RemoveRedEye color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} />}
-                    </span>
-                  </div>
-                </div>
-                <Box className="flex gap-3">
-                  <Button variant='contained' sx={{ color: "#ffffff" }} size='medium' color='primary'>
-                    Transfer
-                  </Button>
-                  <Button variant='contained' size='medium' sx={{ color: "#ffffff" }} color='primary'>
-                    Deposit
-                  </Button>
-                </Box>
-
-              </div>
+              <AccountOverviewComponent />
 
             </Grid>
             <Grid item xs={12} lg={8}>
@@ -219,3 +152,38 @@ function Dashboard() {
 }
 
 export default Dashboard
+
+
+function AccountOverviewComponent() {
+  const [showValue, setShowValue] = useState(false)
+  const { sales, tasks } = reportsLineChartData
+  return (
+    <div className={`h-[200px] flex flex-col justify-between p-4 rounded-xl shadow cardImg`}>
+      <div>
+        <Box className={'flex'}>
+          <Typography color={"primary"} sx={{ fontSize: 15, fontWeight: 800 }}>
+            Account Overview
+          </Typography>
+        </Box>
+        <div className="flex flex-row items-center gap-3">
+
+          <Typography variant='h2' color={"primary"}>
+            {showValue ? 180000 : "*****"}
+          </Typography>
+          <span onClick={() => { setShowValue(!showValue) }} className='flex items-center'>
+            {showValue ? <RemoveRedEyeOutlined color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} /> : <RemoveRedEye color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} />}
+          </span>
+        </div>
+      </div>
+      <Box className="flex gap-3">
+        <Button variant='contained' sx={{ color: "#ffffff" }} size='medium' color='primary'>
+          Transfer
+        </Button>
+        <Button variant='contained' size='medium' sx={{ color: "#ffffff" }} color='primary'>
+          Deposit
+        </Button>
+      </Box>
+
+    </div>
+  )
+}
