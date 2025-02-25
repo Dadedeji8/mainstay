@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useEffect } from 'react'
 
 // react-router-dom components
-import { useLocation, NavLink } from 'react-router-dom'
+import { useLocation, NavLink, useNavigate } from 'react-router-dom'
 
 // prop-types is a library for typechecking of props.
 import PropTypes from 'prop-types'
@@ -46,6 +46,10 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from 'context'
+import Button from '@mui/material/Button'
+import { Box } from '@mui/material'
+import { ArrowBack, DoorBack, DoorFrontOutlined } from '@mui/icons-material'
+import { useAuth } from 'context/AuthContext'
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController()
@@ -59,6 +63,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const location = useLocation()
   const collapseName = location.pathname.replace('/', '')
 
+  const { logout } = useAuth()
+  const navigate = useNavigate()
+  const signOut = () => {
+
+    logout()
+    navigate('/')
+  }
   let textColor = 'white'
 
   if (transparentSidenav || (whiteSidenav && !darkMode)) {
@@ -201,6 +212,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         }
       />
       <List>{renderRoutes}</List>
+      <Box className='m-auto' >
+        <Button variant="contained" size='large' color="primary" className='text-white px-14' onClick={() => {
+          signOut()
+        }}>
+          <ArrowBack />   LOG OUT
+        </Button>
+      </Box>
     </SidenavRoot>
   )
 }

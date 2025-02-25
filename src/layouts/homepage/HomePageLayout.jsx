@@ -23,8 +23,9 @@ const HomePageLayout = () => {
     const { isAuthenticated } = useAuth()
     useEffect(() => {
         // return () => {
-
-        isAuthenticated == true ? navigate('/dashboard') : navigate('/');
+        const token = localStorage.getItem('token')
+        token ? navigate('/dashboard') : navigate('/');
+        // isAuthenticated == true ? navigate('/dashboard') : navigate('/');
     }, [])
     return <Box sx={{ maxWidth: "100%", overflow: 'hidden' }}>
         <PageLayout>

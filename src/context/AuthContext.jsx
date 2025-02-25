@@ -389,6 +389,36 @@ export const AuthProvider = ({ children }) => {
             })
             .catch((error) => console.error("Error fetching profile:", error));
     }
+    function updateProfile(data) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token || localStorage.getItem("token"));
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            redirect: "follow",
+            body: JSON.stringify(data)
+        };
+
+        fetch(`${endpoint}/user/profile`, requestOptions)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((result) => {
+                console.log("Fetched profile result:", result);
+
+                if (!result || Object.keys(result).length === 0) {
+                    throw new Error("Received empty response from API");
+                }
+
+
+            })
+            .catch((error) => console.error("Error fetching profile:", error));
+    }
+
 
     function getAllProfile({ userId }) {
         const myHeaders = new Headers();
@@ -663,6 +693,7 @@ export const AuthProvider = ({ children }) => {
             endpoint,
             transactionsHistory,
             getProfile,
+            updateProfile,
             setTransactionsHistory,
             deposits,
             profile,
