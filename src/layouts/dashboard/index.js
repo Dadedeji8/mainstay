@@ -38,7 +38,7 @@ function Dashboard() {
     console.log({ isAdmin })
   }
     , [isAdmin])
-  useEffect(() => { getNotification() }, [])
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -58,7 +58,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon="leaderboard"
-                title="Available balance"
+                title="total users"
                 count="2,300"
                 percentage={{
                   color: 'success',
@@ -73,13 +73,9 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="success"
                 icon="store"
-                title="Account Type"
+                title="Pending Transactions"
                 count="Lv 1"
-                percentage={{
-                  color: 'success',
-                  amount: '+1%',
-                  label: 'than yesterday',
-                }}
+
               />
             </MDBox>
           </Grid>
@@ -90,11 +86,7 @@ function Dashboard() {
                 icon="person"
                 title="Verification Status"
                 count="Verified"
-                percentage={{
-                  color: 'success',
-                  amount: '',
-                  label: 'Just updated',
-                }}
+
               />
             </MDBox>
           </Grid>
