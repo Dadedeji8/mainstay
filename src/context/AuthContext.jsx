@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 
 
 const AuthenticationContext = createContext();
@@ -14,9 +15,9 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [profile, setProfile] = useState(null);
     const [error, setError] = useState(null)
-    const [token, setToken] = useState(null)
+    const [token, setToken] = useState(localStorage.getItem("token"))
     const [loading, setLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(profile?.isAdmin || false)
     const [allUsers, setAllUsers] = useState([
         {
             "account": {
@@ -335,18 +336,19 @@ export const AuthProvider = ({ children }) => {
             __v: 0
         }
     ])
-
     useEffect(() => {
-        console.log("Checking authentication...");
-        const token = localStorage.getItem("token");
-
-        if (token) {
-            setIsAuthenticated(true);
-            console.log("User is authenticated");
+        const storedToken = localStorage.getItem("token");
+        const storedProfile = JSON.parse(localStorage.getItem("profile"));
+        if (storedToken) {
+            setToken(storedToken);
         }
+        if (storedProfile) {
+            setProfile(storedProfile);
+            setIsAdmin(storedProfile.isAdmin);
+        }
+    }, []); // Runs only on mount
 
-        setLoading(false); //  Mark loading as complete
-    }, []);
+
 
     useEffect(() => {
         if (!token) {
@@ -356,13 +358,17 @@ export const AuthProvider = ({ children }) => {
         getWithdrawals({});
         getTransactions({});
         getDeposits({});
-        // only admin
-        getAllProfile({});
+        if (isAdmin) {
+
+            // only admin
+            getAllProfile({});
+        }
+        setLoading(false); 
     }, [token]);
 
     function getProfile() {
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", token || localStorage.getItem("token"));
+        myHeaders.append("Authorization", token);
 
         const requestOptions = {
             method: "GET",
@@ -387,7 +393,6 @@ export const AuthProvider = ({ children }) => {
                 setProfile(result); //  Update state
                 setIsAdmin(result.isAdmin)
                 localStorage.setItem("profile", JSON.stringify(result));
-                localStorage.setItem("isAdmin", JSON.stringify(result.isAdmin));
             })
             .catch((error) => console.error("Error fetching profile:", error));
     }
@@ -624,10 +629,15 @@ export const AuthProvider = ({ children }) => {
             if (!response.ok) {
                 throw new Error(result.error || 'Failed to log in'); // Use API error message if available
             }
+            // return console.log({ result })
 
-            setToken(result.token);
             localStorage.setItem('token', result.token);
-            setIsAuthenticated(true);
+            localStorage.setItem('profile', result.user);
+            setToken(result.token);
+            setProfile(result.user);
+            setIsAdmin(result.user.isAdmin);
+
+
 
             console.log('Login successful. Token:', result.token);
             return { success: true, data: result }; // Return success status
@@ -691,11 +701,14 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
-        setIsAuthenticated(false);
+        localStorage.removeItem('profile');
+        setToken(null);
+        setProfile(null);
+        setIsAdmin(false);
     };
     return (
         <AuthenticationContext.Provider value={{
-            isAuthenticated,
+            isAuthenticated, isAdmin,
             registerUser,
             login,
             logout,
@@ -713,7 +726,7 @@ export const AuthProvider = ({ children }) => {
             withdrawals,
             setWithdrawals,
             error,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, loading
         }}>
             {children}
         </AuthenticationContext.Provider>
