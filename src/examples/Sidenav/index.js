@@ -50,7 +50,7 @@ import Button from '@mui/material/Button'
 import { Box } from '@mui/material'
 import { ArrowBack, DoorBack, DoorFrontOutlined } from '@mui/icons-material'
 import { useAuth } from 'context/AuthContext'
-
+import RoutesConfig from '../../routes';
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController()
   const {
@@ -104,7 +104,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   }, [dispatch, location])
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  const renderRoutes = routes.map(
+  const renderRoutes = RoutesConfig().map(
     ({ type, name, icon, title, noCollapse, key, href, route }) => {
       let returnValue
 
@@ -242,7 +242,7 @@ Sidenav.propTypes = {
   ]),
   brand: PropTypes.string,
   brandName: PropTypes.string.isRequired,
-  routes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  routes: PropTypes.any.isRequired,
 }
 
 export default Sidenav

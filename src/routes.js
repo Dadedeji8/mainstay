@@ -49,164 +49,66 @@ import MakeTransaction from 'layouts/makeTransactions/MakeTransaction.jsx'
 // @mui icons
 import Icon from '@mui/material/Icon'
 import HistoryPage from 'layouts/History/HistoryPage'
+import UsersPage from 'layouts/Users/UsersPage'
+import { useAuth } from 'context/AuthContext'
 
-const routes = [
-  {
-    type: 'collapse',
-    name: 'Dashboard',
-    key: 'dashboard',
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: '/dashboard',
-    component: <Dashboard />,
-  },
-  {
-    type: 'collapse',
-    name: 'Transactions',
-    key: 'tables',
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: '/history',
-    component: <HistoryPage />,
-  },
-  {
-    type: 'collapse',
-    name: 'Make Transaction',
-    key: 'make transaction',
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: '/maketransaction',
-    component: <MakeTransaction />,
-  },
-  // {
-  //   type: 'collapse',
-  //   name: 'Withdraw',
-  //   key: 'billing',
-  //   icon: <Icon fontSize="small">receipt_long</Icon>,
-  //   route: '/billing',
-  //   component: <Billing />,
-  // },
 
-  {
-    type: 'collapse',
-    name: 'Notifications',
-    key: 'notifications',
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: '/notifications',
-    component: <Notifications />,
-  },
-  // {
-  //   type: 'collapse',
-  //   name: 'Homepage',
-  //   key: 'Homepage',
-  //   icon: <Icon fontSize="small">House</Icon>,
-  //   route: '/',
-  //   component: <HomePage />,
-  // },
-  {
-    type: 'collapse',
-    name: 'Profile',
-    key: 'profile',
-    icon: <Icon fontSize="small">person</Icon>,
-    route: '/profile',
-    component: <Profile />,
-  },
-  // {
-  //   type: 'collapse',
-  //   name: 'Sign Out',
-  //   key: 'sign-in',
-  //   icon: <Icon fontSize="small">login</Icon>,
-  //   route: '/authentication/sign-in',
-  //   component: <SignIn />,
-  // },
-  // {
-  //   type: 'collapse',
-  //   name: 'Sign Up',
-  //   key: 'sign-up',
-  //   icon: <Icon fontSize="small">assignment</Icon>,
-  //   route: '/authentication/sign-up',
-  //   component: <SignUp />,
-  // },
-]
 
-// const userRoutes =[
-//   {
-//     type: 'collapse',
-//     name: 'Dashboard',
-//     key: 'dashboard',
-//     icon: <Icon fontSize="small">dashboard</Icon>,
-//     route: '/dashboard',
-//     component: <Dashboard />,
-//   },
-//   {
-//     type: 'collapse',
-//     name: 'Transactions',
-//     key: 'tables',
-//     icon: <Icon fontSize="small">table_view</Icon>,
-//     route: '/history',
-//     component: <HistoryPage />,
-//   },
-//   {
-//     type: 'collapse',
-//     name: 'Deposit',
-//     key: 'tables',
-//     icon: <Icon fontSize="small">table_view</Icon>,
-//     route: '/history',
-//     component: <Tables />,
-//   },
-//   {
-//     type: 'collapse',
-//     name: 'Withdraw',
-//     key: 'billing',
-//     icon: <Icon fontSize="small">receipt_long</Icon>,
-//     route: '/billing',
-//     component: <Billing />,
-//   },
-//   // {
-//   //   type: "collapse",
-//   //   name: "RTL",
-//   //   key: "rtl",
-//   //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-//   //   route: "/rtl",
-//   //   component: <RTL />,
-//   // },
-//   {
-//     type: 'collapse',
-//     name: 'Notifications',
-//     key: 'notifications',
-//     icon: <Icon fontSize="small">notifications</Icon>,
-//     route: '/notifications',
-//     component: <Notifications />,
-//   },
-//   // {
-//   //   type: 'collapse',
-//   //   name: 'Homepage',
-//   //   key: 'Homepage',
-//   //   icon: <Icon fontSize="small">House</Icon>,
-//   //   route: '/',
-//   //   component: <HomePage />,
-//   // },
-//   {
-//     type: 'collapse',
-//     name: 'Profile',
-//     key: 'profile',
-//     icon: <Icon fontSize="small">person</Icon>,
-//     route: '/profile',
-//     component: <Profile />,
-//   },
-//   {
-//     type: 'collapse',
-//     name: 'Sign Out',
-//     key: 'sign-in',
-//     icon: <Icon fontSize="small">login</Icon>,
-//     route: '/authentication/sign-in',
-//     component: <SignIn />,
-//   },
-//   {
-//     type: 'collapse',
-//     name: 'Sign Up',
-//     key: 'sign-up',
-//     icon: <Icon fontSize="small">assignment</Icon>,
-//     route: '/authentication/sign-up',
-//     component: <SignUp />,
-//   },
-// ]
+const Routes = () => {
+  const { isAdmin } = useAuth();
 
-export default routes
+  const routes = [
+    {
+      type: 'collapse',
+      name: 'Dashboard',
+      key: 'dashboard',
+      icon: <Icon fontSize="small">dashboard</Icon>,
+      route: '/dashboard',
+      component: <Dashboard />,
+    },
+    ...(isAdmin ? [{
+      type: 'collapse',
+      name: 'Users',
+      key: 'tables',
+      icon: <Icon fontSize="small">table_view</Icon>,
+      route: '/users',
+      component: <UsersPage />,
+    }] : []),
+    {
+      type: 'collapse',
+      name: 'Transactions',
+      key: 'tables',
+      icon: <Icon fontSize="small">table_view</Icon>,
+      route: '/history',
+      component: <HistoryPage />,
+    },
+    {
+      type: 'collapse',
+      name: 'Make Transaction',
+      key: 'make transaction',
+      icon: <Icon fontSize="small">table_view</Icon>,
+      route: '/maketransaction',
+      component: <MakeTransaction />,
+    },
+    {
+      type: 'collapse',
+      name: 'Notifications',
+      key: 'notifications',
+      icon: <Icon fontSize="small">notifications</Icon>,
+      route: '/notifications',
+      component: <Notifications />,
+    },
+    {
+      type: 'collapse',
+      name: 'Profile',
+      key: 'profile',
+      icon: <Icon fontSize="small">person</Icon>,
+      route: '/profile',
+      component: <Profile />,
+    },
+  ];
+
+  return routes;
+};
+
+export default Routes;

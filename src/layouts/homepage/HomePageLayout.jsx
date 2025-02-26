@@ -18,14 +18,10 @@ import chartIMG from '../../assets/images/chart.jpg'
 import { useNavigate } from "react-router-dom";
 const HomePageLayout = () => {
     const navigate = useNavigate()
-    // };
 
-    const { isAuthenticated } = useAuth()
+    const { token } = useAuth()
     useEffect(() => {
-        // return () => {
-        const token = localStorage.getItem('token')
         token ? navigate('/dashboard') : navigate('/');
-        // isAuthenticated == true ? navigate('/dashboard') : navigate('/');
     }, [])
     return <Box sx={{ maxWidth: "100%", overflow: 'hidden' }}>
         <PageLayout>
