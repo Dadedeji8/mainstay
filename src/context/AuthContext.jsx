@@ -13,11 +13,14 @@ export const AuthProvider = ({ children }) => {
     const endpoint = "https://mainstay-bank.vercel.app/api";
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
     const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')) || null);
     const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem("profile"))?.isAdmin || false);
-    const [loading, setLoading] = useState(false);
-    const [token, setToken] = useState(localStorage.getItem('token') || null);
+    const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState(localStorage.getItem('token') || null); const [notifications, setNotifications] = ([])
 
+
+const [error, setError] = useState(null)
     const [allUsers, setAllUsers] = useState([])
     const [transactionsHistory, setTransactionsHistory] = useState([])
 
@@ -48,13 +51,16 @@ export const AuthProvider = ({ children }) => {
         getProfile();
         getWithdrawals({});
         getTransactions({});
-        getDeposits({});
+        getDeposits({}); 
+      getNotification()
+
         if (isAdmin) {
 
             // only admin
             getAllProfile({});
         }
         setLoading(false);
+
     }, [token]);
 
     function getProfile() {
@@ -450,7 +456,9 @@ export const AuthProvider = ({ children }) => {
 
         fetch(`${endpoint}/notification`, requestOptions)
             .then((response) => { return response.json() })
-            .then((result) => console.log(result))
+            .then((result) => { setNotifications(result.notifications); console.log(result) }
+
+            )
             .catch((error) => console.error(error));
     }
     return (
