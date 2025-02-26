@@ -1,16 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import MDBox from 'components/MDBox'
 import MDButton from 'components/MDButton'
 import MDInput from 'components/MDInput'
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout'
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar'
+import { useAuth } from 'context/AuthContext'
 
 
 const MakeTransaction = () => {
     const [activeTab, setActiveTab] = useState(true)
     const [open, setOpen] = useState(false)
-
+    const [deposit, setDeposit] = useState({
+        refNo: '',
+        amount: ''
+    })
+    const [buttonContent, setButtonContent] = useState('Submit to proceed')
+    const [withdraw, setWithdraw] = useState({})
+    const { makeDeposit } = useAuth()
     const handleClickOpen = () => {
         setOpen(true)
     }
@@ -18,7 +25,22 @@ const MakeTransaction = () => {
     const handleClose = () => {
         setOpen(false)
     }
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setDeposit({ ...deposit, [name]: value })
+    }
+    const updateDeposit = () => {
+        setButtonContent('processing')
+        try {
+            makeDeposit(deposit)
+            setButtonContent('Done')
+        } catch (error) {
 
+        }
+    }
+    useEffect(() => {
+        console.log(deposit)
+    }, [deposit])
 
     return (
         <DashboardLayout>
@@ -41,16 +63,16 @@ const MakeTransaction = () => {
                 <div>
                     <MDBox component="form" className='mt-5' sx={{ Margin: 1 }}>
                         <div className='flex gap-1'>
-                            <MDInput fullWidth label={activeTab ? `Account Number` : 'Deposit ID'} type={activeTab ? 'number' : 'text'} mb={2} />
-                            <MDInput fullWidth label={activeTab ? `Bank Name` : 'Amount'} type="text" mb={2} />
+                            <MDInput fullWidth label={activeTab ? `Account Number` : 'referenece no.'} onChange={handleChange} type={activeTab ? 'number' : 'text'} name={activeTab ? `AccountNumber` : 'refNo'} mb={2} />
+                            <MDInput fullWidth label={activeTab ? `Bank Name` : 'Amount'} onChange={handleChange} name={activeTab ? `Bank Name` : 'amount'} type="text" mb={2} />
                         </div>
                         {activeTab ? <div className='flex gap-1 mt-2'>
                             <MDInput fullWidth label="account Name" type="text" mb={2} />
                             <MDInput fullWidth label="Amount($)" type="number" mb={2} />
                         </div> : ""}
 
-                        <MDButton size='large' variant={'contained'} color={'primary'} className="w-full mt-5" onClick={handleClickOpen}>
-                            Submit to proceed
+                        <MDButton size='large' variant={'contained'} color={'primary'} className="w-full mt-5" onClick={activeTab ? handleClickOpen : updateDeposit}>
+                            {buttonContent}
                         </MDButton>
                     </MDBox>
                 </div>

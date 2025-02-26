@@ -670,7 +670,7 @@ export const AuthProvider = ({ children }) => {
     // making new deposit below
     const makeDeposit = (data) => {
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", token);
+        myHeaders.append("Authorization", token || localStorage.getItem('token'));
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
@@ -732,6 +732,7 @@ export const AuthProvider = ({ children }) => {
             setDeposits,
             makeDeposit,
             withdrawals,
+            notifications,
             setWithdrawals,
             error,
             allUsers,
