@@ -708,7 +708,7 @@ export const AuthProvider = ({ children }) => {
     };
     const getNotification = () => {
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", token || localStorage.getItem('token'));
+        myHeaders.append("Authorization", token);
         myHeaders.append("Content-Type", "application/json")
 
         const requestOptions = {
