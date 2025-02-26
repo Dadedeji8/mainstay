@@ -43,7 +43,8 @@ import {
 // Images
 import brandWhite from 'assets/images/logo-ct.png'
 import brandDark from 'assets/images/logo-ct-dark.png'
-
+import { useAuth } from 'context/AuthContext'
+import RoutesConfig from './routes';
 export default function App() {
 
 
@@ -61,6 +62,9 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false)
   const [rtlCache, setRtlCache] = useState(null)
   const { pathname } = useLocation()
+
+  const { token, loading } = useAuth()
+
 
   // Cache for the rtl
   useMemo(() => {
@@ -107,7 +111,7 @@ export default function App() {
   }, [pathname])
 
   const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
+    RoutesConfig().map((route) => {
       if (route.collapse) {
         return getRoutes(route.collapse)
       }
@@ -149,42 +153,10 @@ export default function App() {
       </Icon> */}
     </MDBox>
   )
-
-  return direction === 'rtl' ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-        <CssBaseline />
-        {layout === 'dashboard' && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={
-                (transparentSidenav && !darkMode) || whiteSidenav
-                  ? brandDark
-                  : brandWhite
-              }
-              brandName="Mainstay Bank"
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            />
-            {/* <Configurator />
-            {configsButton} */}
-          </>
-        )}
-        {layout === 'vr' && <Configurator />}
-        <Routes>
-
-          {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/" />} />
-
-        </Routes>
-      </ThemeProvider>
-    </CacheProvider>
-  ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
-      <CssBaseline />
-      {layout === 'dashboard' && (
+  // console.log({ layout })
+  return <ThemeProvider theme={darkMode ? themeDark : theme}>
+    <CssBaseline />
+    {layout === 'dashboard' && !loading && (
         <>
           <Sidenav
             color={sidenavColor}
@@ -198,9 +170,9 @@ export default function App() {
           {configsButton} */}
         </>
       )}
-      {/* {layout === "vr" && <Configurator />} */}
+    {/* {layout === "vr" && <Configurator />} */}
       <Routes>
-        <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute />}>
           {getRoutes(routes)}
         </Route>
 
@@ -212,5 +184,5 @@ export default function App() {
 
       </Routes>
     </ThemeProvider>
-  )
+
 }

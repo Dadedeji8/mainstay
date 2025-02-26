@@ -1,6 +1,6 @@
 // @mui material components
 import Grid from '@mui/material/Grid'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 // Material Dashboard 2 React components
 import MDBox from 'components/MDBox'
@@ -33,6 +33,10 @@ import { useAuth } from 'context/AuthContext'
 function Dashboard() {
 
   const { isAdmin } = useAuth()
+  useEffect(() => {
+    console.log({ isAdmin })
+  }
+    , [isAdmin])
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -98,11 +102,13 @@ function Dashboard() {
           <Grid container spacing={3} className='flex-col-reverse md:flex-row'>
             <Grid item xs={12} md={6} lg={7.5}>
               <div className="flex flex-col gap-[30px]">
+                {isAdmin && <UsersTableComponent />}
                 <TransactionsTableComponent />
                 <DepositsTableComponent />
                 <WithdrawalsTableComponent />
               </div>
             </Grid>
+            {!isAdmin ?
             <Grid item rowSpacing={3} className='inline-flex  -0  md:fixed top-[96px] right-[3%] ' xs={12} md={6} lg={4.5}>
               <MDBox
                 className="flex flex-col gap-[15px] w-full"
@@ -113,7 +119,19 @@ function Dashboard() {
                 <NotificationComponent />
               </MDBox>
 
-            </Grid>
+              </Grid> : <Grid item rowSpacing={3} className='inline-flex  mt-10  ' xs={12} md={6} lg={4.5}>
+                <MDBox
+                  className="flex flex-col gap-[15px] w-full"
+
+                >
+
+                  {/* <AccountOverviewComponent /> */}
+                  <NotificationComponent />
+                </MDBox>
+
+              </Grid>
+
+            }
           </Grid>
         </MDBox>
       </MDBox>

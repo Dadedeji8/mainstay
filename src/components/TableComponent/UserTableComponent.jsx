@@ -16,8 +16,9 @@ function UsersTableComponent() {
       balance: user.account.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 }),
     },
     isAdmin: user.isAdmin ? 'Admin' : 'User',
+    isActive: user.isActive ? 'Active' : 'Disabled',
     createdAt: moment(user.createdAt).format('DD MMM yyy'),
-    action: <UserActionMenu rowId={user._id} wallet={user.account.balance} />,
+    action: <UserActionMenu rowId={user._id} wallet={user.account.balance} isActive={user.isActive} />,
   }))
   return (
     <div className="">
@@ -35,6 +36,7 @@ function UsersTableComponent() {
             { Header: 'Balance', accessor: 'account.balance' },
             { Header: 'Date', accessor: 'createdAt' },
             { Header: 'Type', accessor: 'isAdmin' },
+            { Header: 'Status', accessor: 'isActive' },
             { Header: 'Action', accessor: 'action' },
           ],
           rows: [...formattedAllUsers],
@@ -46,8 +48,8 @@ function UsersTableComponent() {
 
 export default UsersTableComponent
 
-const UserActionMenu = ({ rowId, wallet }) => {
-  const { adminUpdateUserWallet } = useAuth()
+const UserActionMenu = ({ rowId, wallet, isActive }) => {
+  const { adminUpdateUserWallet, adminDisableUser } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -100,7 +102,10 @@ const UserActionMenu = ({ rowId, wallet }) => {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Disable</MenuItem>
+        <MenuItem onClick={() => {
+          adminDisableUser({ id: rowId });
+          handleClose()
+        }}>{isActive ? "Disable" : "Activate"}</MenuItem>
         <MenuItem onClick={handleDialogOpen}>Update Wallet</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
@@ -133,4 +138,5 @@ const UserActionMenu = ({ rowId, wallet }) => {
 UserActionMenu.propTypes = {
   rowId: PropTypes.string.isRequired,
   wallet: PropTypes.number.isRequired,
+  isActive: PropTypes.bool.isRequired,
 };
