@@ -35,7 +35,7 @@ const MakeTransaction = () => {
             makeDeposit(deposit)
             setButtonContent('Done')
         } catch (error) {
-
+            setButtonContent('Submit to proceed')
         }
     }
     useEffect(() => {
