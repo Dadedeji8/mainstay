@@ -13,8 +13,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
+import moment from 'moment'
 // @mui material components
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
@@ -30,21 +30,118 @@ import MDSnackbar from 'components/MDSnackbar'
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout'
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar'
 import Footer from 'examples/Footer'
+import { Box, Divider } from '@mui/material'
+import { useAuth } from 'context/AuthContext'
 
 function Notifications() {
   const [successSB, setSuccessSB] = useState(false)
   const [infoSB, setInfoSB] = useState(false)
   const [warningSB, setWarningSB] = useState(false)
   const [errorSB, setErrorSB] = useState(false)
-
-  const openSuccessSB = () => setSuccessSB(true)
-  const closeSuccessSB = () => setSuccessSB(false)
-  const openInfoSB = () => setInfoSB(true)
-  const closeInfoSB = () => setInfoSB(false)
-  const openWarningSB = () => setWarningSB(true)
-  const closeWarningSB = () => setWarningSB(false)
-  const openErrorSB = () => setErrorSB(true)
-  const closeErrorSB = () => setErrorSB(false)
+  const { getNotification } = useAuth()
+  const notifications = [{
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  },
+  {
+    "_id": "67b737148b72ebd0b45b06af"
+    ,
+    "userId": null,
+    "message": "this is a test notification to everyone",
+    "createdAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "updatedAt": "2025-02-20T14:07:16.446Z"
+    ,
+    "__v": 0
+  }]
+  useEffect(() => {
+    getNotification()
+    // console.log(result)
+  }, [])
 
   const alertContent = (name) => (
     <MDTypography variant="body2" color="white">
@@ -62,98 +159,36 @@ function Notifications() {
     </MDTypography>
   )
 
-  const renderSuccessSB = (
-    <MDSnackbar
-      color="success"
-      icon="check"
-      title="Material Dashboard"
-      content="Hello, world! This is a notification message"
-      dateTime="11 mins ago"
-      open={successSB}
-      onClose={closeSuccessSB}
-      close={closeSuccessSB}
-      bgWhite
-    />
-  )
-
-  const renderInfoSB = (
-    <MDSnackbar
-      icon="notifications"
-      title="Material Dashboard"
-      content="Hello, world! This is a notification message"
-      dateTime="11 mins ago"
-      open={infoSB}
-      onClose={closeInfoSB}
-      close={closeInfoSB}
-    />
-  )
-
-  const renderWarningSB = (
-    <MDSnackbar
-      color="warning"
-      icon="star"
-      title="Material Dashboard"
-      content="Hello, world! This is a notification message"
-      dateTime="11 mins ago"
-      open={warningSB}
-      onClose={closeWarningSB}
-      close={closeWarningSB}
-      bgWhite
-    />
-  )
-
-  const renderErrorSB = (
-    <MDSnackbar
-      color="error"
-      icon="warning"
-      title="Material Dashboard"
-      content="Hello, world! This is a notification message"
-      dateTime="11 mins ago"
-      open={errorSB}
-      onClose={closeErrorSB}
-      close={closeErrorSB}
-      bgWhite
-    />
-  )
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox mt={6} mb={3}>
+      <MDBox mt={6} mb={3} className=''>
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12} lg={8}>
-            <Card>
+            <Card className=''>
               <MDBox p={2}>
                 <MDTypography variant="h5">Notifications</MDTypography>
               </MDBox>
               <MDBox pt={2} px={2}>
-                <MDAlert color="primary" dismissible>
-                  {alertContent('primary')}
-                </MDAlert>
-                <MDAlert color="secondary" dismissible>
-                  {alertContent('secondary')}
-                </MDAlert>
-                <MDAlert color="success" dismissible>
-                  {alertContent('success')}
-                </MDAlert>
-                <MDAlert color="error" dismissible>
-                  {alertContent('error')}
-                </MDAlert>
-                <MDAlert color="warning" dismissible>
-                  {alertContent('warning')}
-                </MDAlert>
-                <MDAlert color="info" dismissible>
-                  {alertContent('info')}
-                </MDAlert>
-                <MDAlert color="light" dismissible>
-                  {alertContent('light')}
-                </MDAlert>
-                <MDAlert color="dark" dismissible>
-                  {alertContent('dark')}
-                </MDAlert>
+                {notifications.map((notification) => {
+                  return <Box key={notification._id}> <Box className='shadow rounded p-2 mb-1 flex justify-between items-center'>
+                    <p className='text-blue-600  text-sm'>
+                      {notification.message}
+                    </p>
+                    <p className='text-gray-400  text-[10px]'>
+                      {moment(notification.createdAt).format('MMMM Do YYYY')}
+                    </p>
+                  </Box>
+                    <Divider /></Box>
+                })}
+
+
               </MDBox>
             </Card>
           </Grid>
+
+
           {/* 
           <Grid item xs={12} lg={8}>
             <Card>
