@@ -13,7 +13,7 @@ const ProtectedRoute = () => {
             <CircularProgress
                 size="md"
                 value={40}
-                // variant="soft"
+            // variant="soft"
             />
 
             loading...

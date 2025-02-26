@@ -53,8 +53,8 @@ export const AuthProvider = ({ children }) => {
         getWithdrawals({});
         getTransactions({});
         getDeposits({});
-        getNotification()
-        getNotification()
+        getNotification();
+
         if (isAdmin) {
 
             // only admin
@@ -413,7 +413,7 @@ export const AuthProvider = ({ children }) => {
     // making new deposit below
     const makeDeposit = (data) => {
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", token || localStorage.getItem('token'));
+        myHeaders.append("Authorization", token);
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
@@ -457,7 +457,7 @@ export const AuthProvider = ({ children }) => {
 
         fetch(`${endpoint}/notification`, requestOptions)
             .then((response) => { return response.json() })
-            .then((result) => { setNotifications(result?.notifications); console.log(result) }
+            .then((result) => { setNotifications(result?.notifications) }
 
             )
             .catch((error) => console.error(error));

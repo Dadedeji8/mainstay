@@ -39,11 +39,12 @@ function Notifications() {
   const [warningSB, setWarningSB] = useState(false)
   const [errorSB, setErrorSB] = useState(false)
   const { notifications, getNotification } = useAuth()
-  const [notification, setNotification] = useState([])
-  useEffect(() => {
+  // const [notification, setNotification] = useState([])
+  // useEffect(() => {
 
-    setNotification(notifications);
-  }, []);
+  //   setNotification(notifications);
+  //   console.log(notification)
+  // }, [notifications]);
 
   // const alertContent = (name) => (
   //   <MDTypography variant="body2" color="white">
@@ -73,7 +74,7 @@ function Notifications() {
                 <MDTypography variant="h5">Notifications</MDTypography>
               </MDBox>
               <MDBox pt={2} px={2} pb={2} >
-                {notification?.map((notification) => {
+                {notifications?.map((notification) => {
                   return <Box key={notification._id}> <Box className='outline outline-gray-200 rounded mb-1  p-2 py-4  flex justify-between items-center'>
                     <p className='text-blue-600  text-sm'>
                       {notification.message}

@@ -28,15 +28,17 @@ import WithdrawalsTableComponent from 'components/TableComponent/WithdrawalsTabl
 import React from 'react'
 import UsersTableComponent from 'components/TableComponent/UserTableComponent'
 import { useAuth } from 'context/AuthContext'
+import { Link } from 'react-router-dom'
 
 
 function Dashboard() {
 
-  const { isAdmin } = useAuth()
+  const { notifications, getNotification, isAdmin } = useAuth()
   useEffect(() => {
     console.log({ isAdmin })
   }
     , [isAdmin])
+  useEffect(() => { getNotification() }, [])
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -167,10 +169,12 @@ function AccountOverviewComponent() {
       </div>
       <Box className="flex gap-3">
         <Button variant='contained' sx={{ color: "#ffffff" }} size='medium' color='primary'>
-          Transfer
+          <Link to={'/maketransaction'}>
+            Transfer</Link>
         </Button>
         <Button variant='contained' size='medium' sx={{ color: "#ffffff" }} color='primary'>
-          Deposit
+          <Link to={'/maketransaction'}>
+            Deposit</Link>
         </Button>
       </Box>
 
@@ -180,13 +184,13 @@ function AccountOverviewComponent() {
 
 function NotificationComponent() {
   const [showValue, setShowValue] = useState(false)
-  const [Notification, setNotification] = useState([])
+  // const [Notification, setNotification] = useState([])
   const { sales, tasks } = reportsLineChartData
   const { notifications, getNotification } = useAuth()
-  useEffect(() => {
-    getNotification()
-    setNotification(notifications);
-  }, []);
+  // useEffect(() => {
+
+  //   setNotification(notifications);
+  // }, []);
 
   return (
     <Card padding={2} sx={{ padding: 2 }} className='h-[240px]  overf low-y-scroll'>
@@ -195,14 +199,14 @@ function NotificationComponent() {
       </Typography>
       <Stack className='h-[200px]  overflow-y-scroll' >
 
-        {Notification?.map((notification) => {
-          return <Box key={notification._id}> <Box className='outline outline-gray-200 rounded mb-1  p-2 py-4  flex justify-between items-center'>
-            <p className='text-blue-600  text-sm'>
-              {(notification.message).slice(0, 25)}
+        {notifications?.map((notification) => {
+          return <Box key={notification._id}> <Box className='outline outline-gray-200 rounded mb-1  p-2 py-4   justify-between items-center'>
+            <Link to={'/notifications'}>   <p className='text-blue-800  text-sm'>
+              {(notification.message).slice(0, -8)}...
             </p>
-            <p className='text-gray-400  text-[10px]'>
-              {moment(notification.createdAt).format('MMMM Do h:mm:ss a')}
-            </p>
+              <p className='text-gray-400  text-[10px]'>
+                {moment(notification.createdAt).format('MMMM Do h:mm:ss a')}
+              </p></Link>
           </Box>
           </Box>
         })}
