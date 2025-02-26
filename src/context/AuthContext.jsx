@@ -14,89 +14,33 @@ export const AuthProvider = ({ children }) => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')) || null);
-    const [isAdmin, setIsAdmin] = useState(profile?.isAdmin || false);
+    const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem("profile"))?.isAdmin || false);
     const [loading, setLoading] = useState(false);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
 
     const [allUsers, setAllUsers] = useState([])
     const [transactionsHistory, setTransactionsHistory] = useState([])
 
-    const [deposits, setDeposits] = useState([
-        {
-            "_id": "67b74d30c0af7f5043dc7f23",
-            "userId": {
-                "_id": "67b609a14ea89d98cc1c108f",
-                "fullName": "Josiah Victor"
-            },
-            "amount": 2000,
-            "transactionRef": "1234",
-            "status": "approved",
-            "createdAt": "2025-02-20T15:41:36.751Z",
-            "updatedAt": "2025-02-20T17:21:56.691Z",
-            "__v": 0
-        },
-        {
-            "_id": "67b74d39c0af7f5043dc7f26",
-            "userId": {
-                "_id": "67b609a14ea89d98cc1c108f",
-                "fullName": "Josiah Victor"
-            },
-            "amount": 2000,
-            "transactionRef": "1234",
-            "status": "rejected",
-            "createdAt": "2025-02-20T15:41:45.929Z",
-            "updatedAt": "2025-02-20T17:27:57.566Z",
-            "__v": 0
-        },
-        {
-            "_id": "67b74d6f5046aca8bb290f6f",
-            "userId": {
-                "_id": "67b609a14ea89d98cc1c108f",
-                "fullName": "Josiah Victor"
-            },
-            "amount": 2000,
-            "transactionRef": "1234",
-            "status": "pending",
-            "createdAt": "2025-02-20T15:42:39.523Z",
-            "updatedAt": "2025-02-20T15:42:39.523Z",
-            "__v": 0
-        },
-        {
-            "_id": "67b74dd5c1a0cde9e919ad98",
-            "userId": {
-                "_id": "67b609a14ea89d98cc1c108f",
-                "fullName": "Josiah Victor"
-            },
-            "amount": 2000,
-            "transactionRef": "1234",
-            "status": "pending",
-            "createdAt": "2025-02-20T15:44:21.122Z",
-            "updatedAt": "2025-02-20T15:44:21.122Z",
-            "__v": 0
-        },
-        {
-            "_id": "67b75118c1a0cde9e919ad9c",
-            "userId": {
-                "_id": "67b609a14ea89d98cc1c108f",
-                "fullName": "Josiah Victor"
-            },
-            "amount": 2000,
-            "transactionRef": "1234",
-            "status": "pending",
-            "createdAt": "2025-02-20T15:58:16.491Z",
-            "updatedAt": "2025-02-20T15:58:16.491Z",
-            "__v": 0
-        }
-    ])
+    const [deposits, setDeposits] = useState([])
 
     const [withdrawals, setWithdrawals] = useState([])
 
     useEffect(() => {
-        // const token = localStorage.getItem('token');
-        if (token) {
-            setIsAuthenticated(true);
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            setToken(storedToken);
         }
-    }, []);
+        const storedProfile = JSON.parse(localStorage.getItem("profile"));
+        if (storedProfile) {
+            setProfile(storedProfile);
+            setIsAdmin(storedProfile.isAdmin);
+        }
+    }, []); // Runs only on mount
+
+    useEffect(() => {
+        console.log({ isAdmin })
+    }, [isAdmin]); // Runs only on mount
+
     useEffect(() => {
         if (!token) {
             return;
@@ -392,9 +336,10 @@ export const AuthProvider = ({ children }) => {
 
         fetch(api, requestOptions)
             .then((response) => response.json())
-            .then((result) => setProfile(result))
+            .then((result) => setDeposits(result.deposits))
             .catch((error) => console.error(error));
     }
+
     const login = async (data) => {
         console.log('This is the data being submitted for login:', data);
 
@@ -415,7 +360,7 @@ export const AuthProvider = ({ children }) => {
             // return console.log({ result })
 
             localStorage.setItem('token', result.token);
-            localStorage.setItem('profile', result.user);
+            localStorage.setItem('profile', JSON.stringify(result.user));
             setToken(result.token);
             setProfile(result.user);
             setIsAdmin(result.user.isAdmin);
@@ -478,7 +423,10 @@ export const AuthProvider = ({ children }) => {
 
         fetch("https://mainstay-bank.vercel.app/api/bank/deposit", requestOptions)
             .then((response) => response.text())
-            .then((result) => console.log(result))
+            .then((result) => {
+                console.log(result)
+                getDeposits({})
+            })
             .catch((error) => console.error(error));
     }
 
@@ -516,6 +464,7 @@ export const AuthProvider = ({ children }) => {
             endpoint,
             transactionsHistory,
             getProfile,
+            adminDisableUser,
             updateProfile,
             setTransactionsHistory,
             deposits,
