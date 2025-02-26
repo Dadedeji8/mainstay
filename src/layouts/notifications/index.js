@@ -38,126 +38,28 @@ function Notifications() {
   const [infoSB, setInfoSB] = useState(false)
   const [warningSB, setWarningSB] = useState(false)
   const [errorSB, setErrorSB] = useState(false)
-  const { getNotification } = useAuth()
-  const notifications = [{
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  },
-  {
-    "_id": "67b737148b72ebd0b45b06af"
-    ,
-    "userId": null,
-    "message": "this is a test notification to everyone",
-    "createdAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "updatedAt": "2025-02-20T14:07:16.446Z"
-    ,
-    "__v": 0
-  }]
+  const { notifications, getNotification } = useAuth()
+  const [notification, setNotification] = useState([])
   useEffect(() => {
-    getNotification()
-    // console.log(result)
-  }, [])
 
-  const alertContent = (name) => (
-    <MDTypography variant="body2" color="white">
-      A simple {name} alert with{' '}
-      <MDTypography
-        component="a"
-        href="#"
-        variant="body2"
-        fontWeight="medium"
-        color="white"
-      >
-        an example link
-      </MDTypography>
-      . Give it a click if you like.
-    </MDTypography>
-  )
+    setNotification(notifications);
+  }, []);
+
+  // const alertContent = (name) => (
+  //   <MDTypography variant="body2" color="white">
+  //     A simple {name} alert with{' '}
+  //     <MDTypography
+  //       component="a"
+  //       href="#"
+  //       variant="body2"
+  //       fontWeight="medium"
+  //       color="white"
+  //     >
+  //       an example link
+  //     </MDTypography>
+  //     . Give it a click if you like.
+  //   </MDTypography>
+  // )
 
 
   return (
@@ -170,17 +72,17 @@ function Notifications() {
               <MDBox p={2}>
                 <MDTypography variant="h5">Notifications</MDTypography>
               </MDBox>
-              <MDBox pt={2} px={2}>
-                {notifications.map((notification) => {
-                  return <Box key={notification._id}> <Box className='shadow rounded p-2 mb-1 flex justify-between items-center'>
+              <MDBox pt={2} px={2} pb={2} >
+                {notification?.map((notification) => {
+                  return <Box key={notification._id}> <Box className='outline outline-gray-200 rounded mb-1  p-2 py-4  flex justify-between items-center'>
                     <p className='text-blue-600  text-sm'>
                       {notification.message}
                     </p>
                     <p className='text-gray-400  text-[10px]'>
-                      {moment(notification.createdAt).format('MMMM Do YYYY')}
+                      {moment(notification.createdAt).format('MMMM Do YYYY h:mm:ss a')}
                     </p>
                   </Box>
-                    <Divider /></Box>
+                  </Box>
                 })}
 
 

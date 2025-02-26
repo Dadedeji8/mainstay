@@ -1,7 +1,7 @@
 // @mui material components
 import Grid from '@mui/material/Grid'
 import { use, useEffect, useState } from 'react'
-
+import moment from 'moment'
 // Material Dashboard 2 React components
 import MDBox from 'components/MDBox'
 
@@ -109,17 +109,17 @@ function Dashboard() {
               </div>
             </Grid>
             {!isAdmin ?
-            <Grid item rowSpacing={3} className='inline-flex  -0  md:fixed top-[96px] right-[3%] ' xs={12} md={6} lg={4.5}>
-              <MDBox
-                className="flex flex-col gap-[15px] w-full"
+              <Grid item rowSpacing={3} className='inline-flex  -0  md:fixed top-[96px] right-[3%] ' xs={12} md={6} lg={4.5}>
+                <MDBox
+                  className="flex flex-col gap-[15px] w-full"
 
-              >
+                >
 
-                <AccountOverviewComponent />
-                <NotificationComponent />
-              </MDBox>
+                  <AccountOverviewComponent />
+                  <NotificationComponent />
+                </MDBox>
 
-              </Grid> : <Grid item rowSpacing={3} className='inline-flex  mt-10  ' xs={12} md={6} lg={4.5}>
+              </Grid> : <Grid item rowSpacing={3} className='inline-flex  mt-10  md:max-w-[400px]' xs={12} md={6} lg={4.5}>
                 <MDBox
                   className="flex flex-col gap-[15px] w-full"
 
@@ -146,6 +146,7 @@ export default Dashboard
 function AccountOverviewComponent() {
   const [showValue, setShowValue] = useState(false)
   const { sales, tasks } = reportsLineChartData
+  const { profile } = useAuth()
   return (
     <div className={`h-[200px] flex flex-col justify-between p-4 rounded-xl shadow cardImg`}>
       <div>
@@ -157,7 +158,7 @@ function AccountOverviewComponent() {
         <div className="flex flex-row items-center gap-3">
 
           <Typography variant='h2' color={"primary"}>
-            {showValue ? 180000 : "*****"}
+            {showValue ? profile?.account?.balance : "*****"}
           </Typography>
           <span onClick={() => { setShowValue(!showValue) }} className='flex items-center'>
             {showValue ? <RemoveRedEyeOutlined color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} /> : <RemoveRedEye color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} />}
@@ -179,373 +180,13 @@ function AccountOverviewComponent() {
 
 function NotificationComponent() {
   const [showValue, setShowValue] = useState(false)
-  const [Notification, setNotification] = useState([
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-    {
-      "_id": "67b737148b72ebd0b45b06af"
-      ,
-      "userId": null,
-      "message": "this is a test notification to everyone",
-      "createdAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "updatedAt": "2025-02-20T14:07:16.446Z"
-      ,
-      "__v": 0
-    },
-  ])
+  const [Notification, setNotification] = useState([])
   const { sales, tasks } = reportsLineChartData
-
+  const { notifications, getNotification } = useAuth()
+  useEffect(() => {
+    getNotification()
+    setNotification(notifications);
+  }, []);
 
   return (
     <Card padding={2} sx={{ padding: 2 }} className='h-[240px]  overf low-y-scroll'>
@@ -554,18 +195,17 @@ function NotificationComponent() {
       </Typography>
       <Stack className='h-[200px]  overflow-y-scroll' >
 
-        {
-          Notification.map((item, index) => {
-            return (
-              <Box padding={1} sx={{ display: 'flex', justifyContent: 'space-between' }} key={index}>
-                <Typography variant='body2'>
-                  {item.message}
-                </Typography>
-                <Divider variant="long"></Divider>
-              </Box>
-            )
-          })
-        }
+        {Notification?.map((notification) => {
+          return <Box key={notification._id}> <Box className='outline outline-gray-200 rounded mb-1  p-2 py-4  flex justify-between items-center'>
+            <p className='text-blue-600  text-sm'>
+              {(notification.message).slice(0, 25)}
+            </p>
+            <p className='text-gray-400  text-[10px]'>
+              {moment(notification.createdAt).format('MMMM Do h:mm:ss a')}
+            </p>
+          </Box>
+          </Box>
+        })}
 
       </Stack>
     </Card>

@@ -17,10 +17,11 @@ export const AuthProvider = ({ children }) => {
     const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')) || null);
     const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem("profile"))?.isAdmin || false);
     const [loading, setLoading] = useState(true);
-    const [token, setToken] = useState(localStorage.getItem('token') || null); const [notifications, setNotifications] = ([])
+    const [token, setToken] = useState(localStorage.getItem('token') || null);
+    const [notifications, setNotifications] = useState([])
 
 
-const [error, setError] = useState(null)
+    const [error, setError] = useState(null)
     const [allUsers, setAllUsers] = useState([])
     const [transactionsHistory, setTransactionsHistory] = useState([])
 
@@ -51,9 +52,9 @@ const [error, setError] = useState(null)
         getProfile();
         getWithdrawals({});
         getTransactions({});
-        getDeposits({}); 
-      getNotification()
-
+        getDeposits({});
+        getNotification()
+        getNotification()
         if (isAdmin) {
 
             // only admin
@@ -456,7 +457,7 @@ const [error, setError] = useState(null)
 
         fetch(`${endpoint}/notification`, requestOptions)
             .then((response) => { return response.json() })
-            .then((result) => { setNotifications(result.notifications); console.log(result) }
+            .then((result) => { setNotifications(result?.notifications); console.log(result) }
 
             )
             .catch((error) => console.error(error));
