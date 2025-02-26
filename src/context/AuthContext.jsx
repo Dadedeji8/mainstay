@@ -363,7 +363,7 @@ export const AuthProvider = ({ children }) => {
             // only admin
             getAllProfile({});
         }
-        setLoading(false); 
+        setLoading(false);
     }, [token]);
 
     function getProfile() {
@@ -608,8 +608,8 @@ export const AuthProvider = ({ children }) => {
         };
 
         fetch(api, requestOptions)
-            .then((response) => response.json())
-            .then((result) => setProfile(result))
+            .then((response) => { return response.json() })
+            .then((result) => { setProfile(result) })
             .catch((error) => console.error(error));
     }
     const login = async (data) => {
@@ -706,9 +706,26 @@ export const AuthProvider = ({ children }) => {
         setProfile(null);
         setIsAdmin(false);
     };
+    const getNotification = () => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token || localStorage.getItem('token'));
+        myHeaders.append("Content-Type", "application/json")
+
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch(`${endpoint}/notification`, requestOptions)
+            .then((response) => { return response.json() })
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+    }
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin,
+            getNotification,
             registerUser,
             login,
             logout,
@@ -726,7 +743,11 @@ export const AuthProvider = ({ children }) => {
             withdrawals,
             setWithdrawals,
             error,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, loading
+            loading,
+            allUsers,
+            adminApproveWithdrawals,
+            adminApproveDeposits,
+            adminUpdateUserWallet,
         }}>
             {children}
         </AuthenticationContext.Provider>
