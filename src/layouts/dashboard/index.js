@@ -33,7 +33,7 @@ import { Link } from 'react-router-dom'
 
 function Dashboard() {
 
-  const { notifications, getNotification, isAdmin } = useAuth()
+  const { notifications, getNotification, isAdmin, allUsers, deposits, withdrawals } = useAuth()
   useEffect(() => {
     console.log({ isAdmin })
   }
@@ -49,8 +49,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="success"
                 icon="money"
-                title="Total Balance"
-                count={"$40433"}
+                title="Total Users"
+                count={allUsers.length}
               />
             </MDBox>
           </Grid>
@@ -58,13 +58,10 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon="leaderboard"
-                title="total users"
-                count="2,300"
-                percentage={{
-                  color: 'success',
-                  amount: '+3%',
-                  label: 'than last month',
-                }}
+                title="Pending Deposits"
+
+                count={(deposits.filter((el) => el.status === 'pending')).length}
+
               />
             </MDBox>
           </Grid>
@@ -73,8 +70,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="success"
                 icon="store"
-                title="Pending Transactions"
-                count="Lv 1"
+                title="Pending Withdrawals"
+                count={(withdrawals.filter((el) => el.status === 'pending')).length}
 
               />
             </MDBox>
@@ -84,8 +81,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="primary"
                 icon="person"
-                title="Verification Status"
-                count="Verified"
+                title="Admins"
+                count={(allUsers.filter((el) => el.isAdmin === true)).length}
 
               />
             </MDBox>
