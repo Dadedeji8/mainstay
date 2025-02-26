@@ -428,11 +428,43 @@ export const AuthProvider = ({ children }) => {
             redirect: "follow"
         };
 
-        fetch("https://mainstay-bank.vercel.app/api/bank/deposit", requestOptions)
+        fetch(`${endpoint}/bank/deposit`, requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 console.log(result)
                 getDeposits({})
+            })
+            .catch((error) => console.error(error));
+    }
+    // making new deposit below
+    const makeWithdrawel = (data) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "amount": data.amount,
+            "description": data.description,
+            "account": {
+                "bank": data.bank,
+                "number": data.number,
+                "name": data.name
+            },
+            'password': data.password
+        });
+        console.log('this is the form  the withdraw', raw)
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch(`${endpoint}/bank/withdrawal`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result)
+                getWithdrawals({})
             })
             .catch((error) => console.error(error));
     }
@@ -466,6 +498,7 @@ export const AuthProvider = ({ children }) => {
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin,
             getNotification,
+
             registerUser,
             login,
             logout,
@@ -481,6 +514,7 @@ export const AuthProvider = ({ children }) => {
             loading,
             setDeposits,
             makeDeposit,
+            makeWithdrawel,
             withdrawals,
             notifications,
             setWithdrawals,
