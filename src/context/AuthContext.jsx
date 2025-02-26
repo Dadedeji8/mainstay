@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null)
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false)
+    const [notifications, setNotifications] = ([])
     const [allUsers, setAllUsers] = useState([
         {
             "account": {
@@ -356,6 +357,7 @@ export const AuthProvider = ({ children }) => {
         getWithdrawals({});
         getTransactions({});
         getDeposits({});
+        getNotification()
         // only admin
         getAllProfile({});
     }, [token]);
@@ -706,7 +708,9 @@ export const AuthProvider = ({ children }) => {
 
         fetch(`${endpoint}/notification`, requestOptions)
             .then((response) => { return response.json() })
-            .then((result) => console.log(result))
+            .then((result) => { setNotifications(result.notifications); console.log(result) }
+
+            )
             .catch((error) => console.error(error));
     }
     return (
