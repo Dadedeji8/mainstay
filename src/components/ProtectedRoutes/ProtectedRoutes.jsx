@@ -17,7 +17,7 @@ const ProtectedRoute = () => {
             />
 
             loading...
-        </div>; // ✅ Prevent redirection until loading is complete
+        </div>;
     }
 
     return token ? <Outlet /> : <Navigate to="/authentication/sign-in" replace />;
