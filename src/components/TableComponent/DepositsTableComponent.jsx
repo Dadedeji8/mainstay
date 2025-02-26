@@ -9,7 +9,7 @@ import { MoreVert } from '@mui/icons-material';
 
 
 function DepositsTableComponent() {
-  const { deposits } = useAuth()
+  const { deposits, isAdmin } = useAuth()
   const formattedDeposits = deposits.map((deposit) => ({
     ...deposit,
     createdAt: moment(deposit.createdAt).format('DD MMM yyy'),
@@ -26,7 +26,7 @@ function DepositsTableComponent() {
             { Header: 'Amount', accessor: 'amount', width: '20%' },
             { Header: 'Status', accessor: 'status' },
             { Header: 'Date', accessor: 'createdAt', width: '12%' },
-            { Header: 'Action', accessor: 'action', width: '10%' },
+            ...(isAdmin ? [{ Header: 'Action', accessor: 'action', width: '10%' }] : [])
           ],
           rows: [...formattedDeposits],
         }}

@@ -15,7 +15,7 @@ import {
 import PropTypes from 'prop-types'
 
 function WithdrawalsTableComponent() {
-  const { withdrawals } = useAuth()
+  const { withdrawals, isAdmin } = useAuth()
 
   const formattedWithdrawal = withdrawals.map((withdrawal) => ({
     ...withdrawal,
@@ -44,7 +44,7 @@ function WithdrawalsTableComponent() {
             { Header: 'Reason', accessor: 'reason' },
 
             { Header: 'Date', accessor: 'createdAt', width: '12%' },
-            { Header: 'Action', accessor: 'action', width: '10%' },
+            ...(isAdmin ? [{ Header: 'Action', accessor: 'action', width: '10%' }] : [])
           ],
           rows: [...formattedWithdrawal],
         }}
