@@ -102,7 +102,7 @@ function Dashboard() {
           <Grid container spacing={3} className='flex-col-reverse md:flex-row'>
             <Grid item xs={12} md={6} lg={7.5}>
               <div className="flex flex-col gap-[30px]">
-                {isAdmin && <UsersTableComponent />}
+                {!isAdmin && <UsersTableComponent />}
                 <TransactionsTableComponent />
                 <DepositsTableComponent />
                 <WithdrawalsTableComponent />
