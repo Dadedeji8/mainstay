@@ -13,31 +13,90 @@ export const AuthProvider = ({ children }) => {
     const endpoint = "https://mainstay-bank.vercel.app/api";
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [profile, setProfile] = useState(null);
-    const [error, setError] = useState(null)
-    const [token, setToken] = useState(localStorage.getItem("token"))
-    const [loading, setLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(profile?.isAdmin || false)
+    const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')) || null);
+    const [isAdmin, setIsAdmin] = useState(profile?.isAdmin || false);
+    const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState(localStorage.getItem('token') || null);
+
     const [allUsers, setAllUsers] = useState([])
     const [transactionsHistory, setTransactionsHistory] = useState([])
 
-    const [deposits, setDeposits] = useState([])
+    const [deposits, setDeposits] = useState([
+        {
+            "_id": "67b74d30c0af7f5043dc7f23",
+            "userId": {
+                "_id": "67b609a14ea89d98cc1c108f",
+                "fullName": "Josiah Victor"
+            },
+            "amount": 2000,
+            "transactionRef": "1234",
+            "status": "approved",
+            "createdAt": "2025-02-20T15:41:36.751Z",
+            "updatedAt": "2025-02-20T17:21:56.691Z",
+            "__v": 0
+        },
+        {
+            "_id": "67b74d39c0af7f5043dc7f26",
+            "userId": {
+                "_id": "67b609a14ea89d98cc1c108f",
+                "fullName": "Josiah Victor"
+            },
+            "amount": 2000,
+            "transactionRef": "1234",
+            "status": "rejected",
+            "createdAt": "2025-02-20T15:41:45.929Z",
+            "updatedAt": "2025-02-20T17:27:57.566Z",
+            "__v": 0
+        },
+        {
+            "_id": "67b74d6f5046aca8bb290f6f",
+            "userId": {
+                "_id": "67b609a14ea89d98cc1c108f",
+                "fullName": "Josiah Victor"
+            },
+            "amount": 2000,
+            "transactionRef": "1234",
+            "status": "pending",
+            "createdAt": "2025-02-20T15:42:39.523Z",
+            "updatedAt": "2025-02-20T15:42:39.523Z",
+            "__v": 0
+        },
+        {
+            "_id": "67b74dd5c1a0cde9e919ad98",
+            "userId": {
+                "_id": "67b609a14ea89d98cc1c108f",
+                "fullName": "Josiah Victor"
+            },
+            "amount": 2000,
+            "transactionRef": "1234",
+            "status": "pending",
+            "createdAt": "2025-02-20T15:44:21.122Z",
+            "updatedAt": "2025-02-20T15:44:21.122Z",
+            "__v": 0
+        },
+        {
+            "_id": "67b75118c1a0cde9e919ad9c",
+            "userId": {
+                "_id": "67b609a14ea89d98cc1c108f",
+                "fullName": "Josiah Victor"
+            },
+            "amount": 2000,
+            "transactionRef": "1234",
+            "status": "pending",
+            "createdAt": "2025-02-20T15:58:16.491Z",
+            "updatedAt": "2025-02-20T15:58:16.491Z",
+            "__v": 0
+        }
+    ])
 
     const [withdrawals, setWithdrawals] = useState([])
+
     useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        const storedProfile = JSON.parse(localStorage.getItem("profile"));
-        if (storedToken) {
-            setToken(storedToken);
+        // const token = localStorage.getItem('token');
+        if (token) {
+            setIsAuthenticated(true);
         }
-        if (storedProfile) {
-            setProfile(storedProfile);
-            setIsAdmin(storedProfile.isAdmin);
-        }
-    }, []); // Runs only on mount
-
-
-
+    }, []);
     useEffect(() => {
         if (!token) {
             return;
@@ -143,7 +202,7 @@ export const AuthProvider = ({ children }) => {
 
         fetch(api, requestOptions)
             .then((response) => response.json())
-            .then((result) => setProfile(result))
+            .then((result) => setAllUsers(result.users))
             .catch((error) => console.error(error));
     }
 
@@ -169,9 +228,7 @@ export const AuthProvider = ({ children }) => {
 
         fetch(api, requestOptions)
             .then((response) => response.json())
-            .then((result) => {
-                setTransactionsHistory(result.transactions)
-            })
+            .then((result) => setTransactionsHistory(result.transactions))
             .catch((error) => console.error(error));
     }
 
@@ -222,7 +279,10 @@ export const AuthProvider = ({ children }) => {
 
         fetch(`${endpoint}/bank/withdrawal/${id}`, requestOptions)
             .then((response) => response.json())
-            .then((result) => setProfile(result))
+            .then((result) => {
+                console.log(result)
+                getWithdrawals({})
+            })
             .catch((error) => console.error(error));
     }
 
@@ -246,7 +306,10 @@ export const AuthProvider = ({ children }) => {
 
         fetch(`${endpoint}/bank/deposit/${id}`, requestOptions)
             .then((response) => response.json())
-            .then((result) => setProfile(result))
+            .then((result) => {
+                console.log(result)
+                getDeposits({})
+            })
             .catch((error) => console.error(error));
         return
     }
@@ -271,7 +334,38 @@ export const AuthProvider = ({ children }) => {
 
         fetch(`${endpoint}/bank/balance/${id}`, requestOptions)
             .then((response) => response.json())
-            .then((result) => setProfile(result))
+            .then((result) => {
+                console.log(result)
+                getAllProfile({})
+            })
+            .catch((error) => console.error(error));
+        return
+    }
+
+    function adminDisableUser({ id }) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            targetUserId: id
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+
+        fetch(`${endpoint}/user`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result)
+                getAllProfile({})
+            })
             .catch((error) => console.error(error));
         return
     }
@@ -297,8 +391,8 @@ export const AuthProvider = ({ children }) => {
         };
 
         fetch(api, requestOptions)
-            .then((response) => { return response.json() })
-            .then((result) => { setDeposits(result) })
+            .then((response) => response.json())
+            .then((result) => setProfile(result))
             .catch((error) => console.error(error));
     }
     const login = async (data) => {
@@ -431,12 +525,7 @@ export const AuthProvider = ({ children }) => {
             makeDeposit,
             withdrawals,
             setWithdrawals,
-            error,
-            loading,
-            allUsers,
-            adminApproveWithdrawals,
-            adminApproveDeposits,
-            adminUpdateUserWallet,
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
         }}>
             {children}
         </AuthenticationContext.Provider>
