@@ -355,7 +355,7 @@ const HomePageLayout = () => {
 
             </Box>
             <Box marginTop={10}>
-                <Container>
+                <Container className="m-auto">
                     <h3 className="text-[#004AAD] text-5xl font-black text-center uppercase">
                         Our Services
                     </h3>
@@ -364,7 +364,7 @@ const HomePageLayout = () => {
 
 
                     <Stack direction={{ xs: 'column', md: "row" }} gap={3} marginTop={5}>
-                        <Card sx={{ maxWidth: 345, overflowX: 'none' }} className="overflowx-none">
+                        <Card sx={{ maxWidth: 345, overflowX: 'none' }} className="overflowx-none m-auto">
                             <CardMedia
                                 component="img"
                                 height="140"
@@ -391,7 +391,7 @@ const HomePageLayout = () => {
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
                         </Card>
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345 }} className="overflowx-none m-auto" >
                             <CardMedia
                                 component="img"
                                 height="140"
@@ -415,7 +415,7 @@ const HomePageLayout = () => {
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
                         </Card>
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345 }} className="overflowx-none m-auto">
                             <CardMedia
                                 component="img"
                                 height="140"
@@ -441,7 +441,7 @@ const HomePageLayout = () => {
                     </Stack>
 
                     <Stack direction={{ xs: 'column', md: "row" }} gap={3} marginTop={5}>
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345 }} className="overflowx-none m-auto">
                             <CardMedia
                                 component="img"
                                 height="140"
@@ -465,7 +465,7 @@ const HomePageLayout = () => {
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
                         </Card>
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345 }} className="overflowx-none m-auto">
                             <CardMedia
                                 component="img"
                                 height="140"
@@ -489,7 +489,7 @@ const HomePageLayout = () => {
                                 <Button size="small">Learn More</Button>
                             </CardActions> */}
                         </Card>
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345 }} className="overflowx-none m-auto">
                             <CardMedia
                                 component="img"
                                 height="140"
