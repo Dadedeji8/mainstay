@@ -21,7 +21,7 @@ import BasicLayout from 'layouts/authentication/components/BasicLayout'
 import { useAuth } from 'context/AuthContext'
 // Images
 import bgImage from 'assets/images/bg-sign-in-basic.jpeg'
-
+import logobw from '../../../assets/images/MSB W2.png'
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false)
   const [userCredentials, setUserCredentials] = useState({
@@ -98,7 +98,7 @@ function Basic() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Sign in
+            <img src={logobw} className='w-[300px]' />
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>

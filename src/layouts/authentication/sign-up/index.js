@@ -14,7 +14,7 @@ import MDButton from 'components/MDButton'
 
 // Authentication layout components
 import CoverLayout from 'layouts/authentication/components/CoverLayout'
-
+import logobw from '../../../assets/images/MSB W2.png'
 // Images
 import bgImage from 'assets/images/bg-sign-up-cover.jpeg'
 // select country
@@ -126,7 +126,7 @@ function Cover() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            MAINSTAY BANK
+            <img src={logobw} className='w-[300px]' />
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
