@@ -29,7 +29,7 @@ import Icon from '@mui/material/Icon'
 import MDBox from 'components/MDBox'
 import MDTypography from 'components/MDTypography'
 import MDButton from 'components/MDButton'
-
+import logo from '../../../assets/images/Mainstay logo2.png'
 // Material Dashboard 2 React example components
 import DefaultNavbarLink from 'examples/Navbars/DefaultNavbar/DefaultNavbarLink'
 import DefaultNavbarMobile from 'examples/Navbars/DefaultNavbar/DefaultNavbarMobile'
@@ -116,7 +116,7 @@ function DefaultNavbar({ transparent, light, action }) {
             fontWeight="bold"
             color={light ? 'white' : 'dark'}
           >
-            Mainstay Bank
+            <img src={logo} className='w-[80px]' />
           </MDTypography>
         </MDBox>
         <MDBox color="inherit" display={{ xs: 'none', lg: 'flex' }} m={0} p={0}>

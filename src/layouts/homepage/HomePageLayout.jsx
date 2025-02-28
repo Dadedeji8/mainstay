@@ -3,7 +3,7 @@ import { Box, Button, colors, Container, Paper, Stack, Typography } from "@mui/m
 import PageLayout from "examples/LayoutContainers/PageLayout";
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import HeroImg from "../../assets/images/HeroImg.jpg";
-import sideImg from '../../assets/images/46908.jpg'
+import sideImg from '../../assets/images/20318.jpg'
 import sideImg2 from '../../assets/images/8919.jpg'
 import React, { useEffect } from 'react';
 import { useAuth } from "context/AuthContext";
@@ -15,7 +15,13 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { column, token } from "stylis";
 import chartIMG from '../../assets/images/chart.jpg'
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+import logobw from '../../assets/images/MSB W2.png'
+import logoMain from '../../assets/images/Mainstay logo2.png'
+AOS.init();
 const HomePageLayout = () => {
     const navigate = useNavigate()
 
@@ -35,7 +41,7 @@ const HomePageLayout = () => {
 
             }}>
 
-                <Box className='text-center text-white sm:px-3'>
+                <Box className='text-center text-white sm:px-3' data-aos="zoom-out-up">
                     <h1 className='text-4xl md:text-[60px]  font-black text-gray-300'>
                         Borrowing solutions tailored to your needs.
                     </h1>
@@ -47,7 +53,7 @@ const HomePageLayout = () => {
             <Box sx={{ backgroundColor: "#004AAD" }} >
                 <Container  >
                     <Stack direction={{ xs: 'column', md: "row" }} padding={5} alignItems={'center'} sx={{ height: '100%', gap: 5 }} justifyContent={'center'}>
-                        <div className="md:flex flex-1 flex-col gap-5 justify-center h-full">
+                        <div className="md:flex flex-1 flex-col gap-5 justify-center h-full" data-aos="zoom-out-right">
                             <h1 className='text-white flex-1 md:text-[60px] text-3xl uppercase font-black'>
                                 Borrowing
                             </h1>
@@ -55,7 +61,7 @@ const HomePageLayout = () => {
                                 Borrowing smart can positively impact your future. Find a loan or line of credit that fits your budget and helps you achieve your goals.
                             </p>
                             <div className=" bg-white w-[200px] rouned  flex justify-center rounded">
-                                <button className="bg-white py-2 px-5 rounded">Register Now</button>
+                                <Link to={'/authentication/sign-up'} className="cursor-pointer"><button className="bg-white py-2 px-5 rounded cursor-pointer">Register Now</button></Link>
                             </div>
                         </div>
                         <Box
@@ -65,6 +71,8 @@ const HomePageLayout = () => {
                                 display: "flex",
                                 justifyContent: "center"
                             }}
+                            data-aos="fade-up"
+                            data-aos-anchor-placement="top-center"
                         >
                             <img
                                 src={sideImg}
@@ -106,6 +114,8 @@ const HomePageLayout = () => {
                                 display: "flex",
                                 justifyContent: "center"
                             }}
+                            data-aos="fade-up"
+                            data-aos-anchor-placement="top-center"
                         >
                             <img
                                 src={sideImg2}
@@ -132,7 +142,7 @@ const HomePageLayout = () => {
                             />
                         </Box>
 
-                        <div className="md:flex flex-1 flex-col gap-5 justify-center h-full">
+                        <div className="md:flex flex-1 flex-col gap-5 justify-center h-full" data-aos="zoom-out-left">
                             <h1 className='text-[#004AAD] flex-1 md:text-[25px] text-3xl uppercase font-black'>
                                 Sometimes what you want to do in life requires a loan.
 
@@ -149,7 +159,8 @@ const HomePageLayout = () => {
                 <h1 className="text-blue-900 text-center text-4xl md:text-5xl font-black pb-1">
                     How can loan  work for you?
                 </h1>
-                <Container sx={{ marginTop: 8 }}>
+                <Container sx={{ marginTop: 8 }} data-aos="fade-up"
+                    data-aos-duration="1000">
 
                     <Stack direction={{ md: "row", xs: "column" }} gap={{ sm: 3, md: 5 }}>
                         <Paper elevation={2} sx={{ padding: 2, marginBottom: 2 }} className="flex-1">
@@ -223,7 +234,8 @@ const HomePageLayout = () => {
                 </Container>
 
             </Box> */}
-            <Box sx={{ padding: 10 }} className="bg-blue-700 py-5">
+            <Box sx={{ padding: 10 }} className="bg-blue-700 py-5" data-aos="fade-up"
+                data-aos-duration="1000">
                 <Box marginBottom={4}>
                     <h2 className="text-2xl text-center  pb-2 uppercase font-black text-white">
                         Find the loan that is right for you.
@@ -232,9 +244,9 @@ const HomePageLayout = () => {
 
                     </div>
                 </Box>
-                <Carousel autoPlay>
+                <Carousel autoPlay >
 
-                    <Stack direction={{ xs: 'column', md: 'row' }} gap={2}>
+                    <Stack direction={{ xs: 'column', md: 'row' }} gap={2} >
 
                         <Paper sx={{ padding: 2, marginBottom: 2, }} className="flex-1 mb-2 rounded-2xl">
                             <h4 className="font font-black text-blue-900 text-md mb-3">
@@ -298,10 +310,11 @@ const HomePageLayout = () => {
             </Box>
             <Box marginTop={3}>
                 <Container>
-                    <h3 className="text-[#004AAD] text-5xl font-black text-center uppercase">
+                    <h3 className="text-[#004AAD] text-5xl font-black text-center uppercase" data-aos="fade-up">
                         About Us
                     </h3>
-                    <Box marginTop={2} >
+                    <img src={logoMain} alt="" className="w-2/5 m-auto object-cover " />
+                    <Box marginTop={2} data-aos="fade-up">
                         <p className="text-center leading-widest text-md">
                             Mainstay Bank is the wealth management division of Mainstay  Financial. Our team consists of the experts, products and services formerly offered by Mainstay  Investor Services and Alberta Private Client.
 
@@ -314,10 +327,10 @@ const HomePageLayout = () => {
                     </Box>
                     <Box marginTop={10}>
 
-                        <h3 className="text-blue-900 text-4xl font-black text-center mt-5" style={{ marginBottom: '20px' }}>
+                        <h3 className="text-blue-900 text-4xl font-black text-center mt-5" style={{ marginBottom: '20px' }} data-aos="fade-up">
                             Mainstay realizing your vision of wealth
                         </h3>
-                        <Stack direction={{ md: 'row' }} gap={3}>
+                        <Stack direction={{ md: 'row' }} gap={3} data-aos="fade-up">
                             <p className=" text-[16px] text-center md:text-right flex-1" style={{ lineHeight: '2rem' }} >
                                 <b>People first.</b>  It is how we began and how we continue to operate. And it is working. Today, Mainstay  is an industry-leading investment firm, with over $25.6 billion in assets under administration across more than 200 advisors and 97,000 clients.
 

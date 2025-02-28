@@ -33,7 +33,7 @@ import { Link } from 'react-router-dom'
 
 function Dashboard() {
 
-  const { notifications, getNotification, isAdmin, allUsers, deposits, withdrawals } = useAuth()
+  const { isAdmin, allUsers, deposits, withdrawals } = useAuth()
   useEffect(() => {
     console.log({ isAdmin })
   }
@@ -173,7 +173,6 @@ function AccountOverviewComponent() {
 
 function NotificationComponent() {
   const [showValue, setShowValue] = useState(false)
-  // const [Notification, setNotification] = useState([])
   const { sales, tasks } = reportsLineChartData
   const { notifications, getNotification } = useAuth()
   // useEffect(() => {
