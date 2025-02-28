@@ -6,6 +6,8 @@ import HeroImg from "../../assets/images/HeroImg.jpg";
 import sideImg from '../../assets/images/20318.jpg'
 import sideImg2 from '../../assets/images/8919.jpg'
 import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import { useAuth } from "context/AuthContext";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -16,10 +18,16 @@ import { Carousel } from 'react-responsive-carousel';
 import { column, token } from "stylis";
 import chartIMG from '../../assets/images/chart.jpg'
 import { Link, useNavigate } from "react-router-dom";
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
+// You can also use <link> for styles
 // ..
 import logobw from '../../assets/images/MSB W2.png'
+import cat from '../../assets/images/cat.jpg'
+import cat2 from '../../assets/images/cat2.jpg'
+import cat3 from '../../assets/images/cat3.jpg'
+import cat4 from '../../assets/images/cat4.jpg'
+import cat7 from '../../assets/images/cat7.jpg'
+import cat6 from '../../assets/images/cat6.jpg'
+
 import logoMain from '../../assets/images/Mainstay logo2.png'
 AOS.init();
 const HomePageLayout = () => {
@@ -361,7 +369,7 @@ const HomePageLayout = () => {
                                 component="img"
                                 height="140"
                                 // width={"100%"}
-                                image={chartIMG}
+                                image={cat6}
                                 alt="green iguana"
                             // className="object-cover w-full"
                             />
@@ -387,7 +395,7 @@ const HomePageLayout = () => {
                             <CardMedia
                                 component="img"
                                 height="140"
-                                image={chartIMG}
+                                image={cat4}
                                 alt="green iguana"
                             />
                             <CardContent>
@@ -411,7 +419,7 @@ const HomePageLayout = () => {
                             <CardMedia
                                 component="img"
                                 height="140"
-                                image={chartIMG}
+                                image={cat}
                                 alt="green iguana"
                             />
                             <CardContent>
@@ -437,7 +445,7 @@ const HomePageLayout = () => {
                             <CardMedia
                                 component="img"
                                 height="140"
-                                image={chartIMG}
+                                image={cat3}
                                 alt="green iguana"
                             />
                             <CardContent>
@@ -461,7 +469,7 @@ const HomePageLayout = () => {
                             <CardMedia
                                 component="img"
                                 height="140"
-                                image={chartIMG}
+                                image={cat7}
                                 alt="green iguana"
                             />
                             <CardContent>
@@ -485,7 +493,7 @@ const HomePageLayout = () => {
                             <CardMedia
                                 component="img"
                                 height="140"
-                                image={chartIMG}
+                                image={cat2}
                                 alt="green iguana"
                             />
                             <CardContent>
