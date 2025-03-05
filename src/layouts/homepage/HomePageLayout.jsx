@@ -1,5 +1,5 @@
 
-import { Box, Button, colors, Container, Paper, Stack, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, colors, Container, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import HeroImg from "../../assets/images/HeroImg.jpg";
@@ -29,6 +29,7 @@ import cat7 from '../../assets/images/cat7.jpg'
 import cat6 from '../../assets/images/cat6.jpg'
 
 import logoMain from '../../assets/images/Mainstay logo2.png'
+import { ExpandMore } from "@mui/icons-material";
 AOS.init();
 const HomePageLayout = () => {
     const navigate = useNavigate()
@@ -37,6 +38,48 @@ const HomePageLayout = () => {
     useEffect(() => {
         token ? navigate('/dashboard') : navigate('/');
     }, [])
+    const faqs = [
+        {
+            question: 'How secure is Mainstay Bank?',
+            answer: 'We use top-tier encryption and security protocols to ensure your transactions and data remain safe.'
+        },
+        {
+            question: 'What services does Mainstay Bank offer?',
+            answer: 'We provide online banking, quick transfers, savings accounts, loan options, and more.'
+        },
+        {
+            question: 'How can I contact customer support?',
+            answer: 'You can reach out via our 24/7 support chat or email us at support@Mainstaybank.com.'
+        },
+        {
+            question: 'How do I open an account?',
+            answer: 'You can open an account online by visiting our website and following the step-by-step registration process.'
+        },
+        {
+            question: 'Are there any hidden fees?',
+            answer: 'No, we pride ourselves on transparency. All our fees are clearly outlined on our pricing page.'
+        },
+        {
+            question: 'Can I apply for a loan through Mainstay Bank?',
+            answer: 'Yes, we offer various loan options. Check our loans section for eligibility and application details.'
+        },
+        {
+            question: 'Does Mainstay Bank offer business accounts?',
+            answer: 'Yes, we offer business accounts with tailored features to help you manage your finances effectively.'
+        },
+        {
+            question: 'What happens if I forget my password?',
+            answer: 'You can reset your password by clicking on the “Forgot Password” link on the login page.'
+        },
+        {
+            question: 'How long does it take for a transaction to process?',
+            answer: 'Most transactions are processed instantly, but some may take up to 24 hours depending on bank policies.'
+        },
+        {
+            question: 'Can I access Mainstay Bank internationally?',
+            answer: 'Yes, you can access your Mainstay Bank account from anywhere in the world as long as you have an internet connection.'
+        }
+    ];
     return <Box sx={{ maxWidth: "100%", overflow: 'hidden' }}>
         <PageLayout>
             <DefaultNavbar />
@@ -516,6 +559,100 @@ const HomePageLayout = () => {
                     {/* </Carousel> */}
                 </Container>
             </Box>
+            <section>
+                <div className='bg-blue-800 flex flex-col justify-center w-full items-center h-[400px]'>
+                    <div>
+                        <h1 className="text-white text-4xl font-bold">
+                            Get in Touch
+                        </h1>
+                    </div>
+                    <form className='flex-1 flex flex-col gap-5 px-5 max-w-[600px]'>
+
+                        <input className='text-white rounded-xl border p-3 border-white' placeholder='Name' />
+                        <input className='text-white rounded-xl border p-3 border-white' placeholder='Email' />
+                        <textarea className='border border-white rounded-xl px-3 text-white' placeholder='leave a message' ></textarea>
+                        <button className='border border-white px-4 py-2  border-solid hover:bg-blue-800 text-white rounded-xl cursor-pointer'> Send Message</button>
+                    </form>
+                    {/* <div className="flex-1 hidden md:flex bg-black h-full">
+
+                    </div> */}
+                </div>
+            </section >
+            <section>
+                <section className='py-16 bg-blue-900 text-white text-center'>
+                    <h1 className='text-4xl font-extrabold mb-6'>Frequently Asked Questions</h1>
+                    <Container maxWidth="md">
+                        <div className="grid md:grid-cols-2 gap-5">
+                            {faqs.map((faq, index) => (
+                                <div key={index} className="flex flex-col">
+                                    <Accordion
+                                        sx={{
+                                            backgroundColor: "#004AAD",
+                                            color: "white",
+                                            marginBottom: 2,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <AccordionSummary expandIcon={<ExpandMore sx={{ color: "white" }} />}>
+                                            <Typography className="font-bold text-gray-50">{faq.question}</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography className='text-gray-50 text-left'>{faq.answer}</Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                </div>
+                            ))}
+                        </div>
+                    </Container>
+
+                </section>
+
+            </section>
+            <section>
+                <Box component="footer" sx={{ backgroundColor: '#004AAD', color: 'white', py: 6 }}>
+                    <Container maxWidth='lg'>
+                        <Grid container spacing={4} className='text-white'>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>About Us</Typography>
+                                <Typography variant='body2'>Mainstay Bank provides secure and innovative banking solutions for individuals and businesses.</Typography>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>Quick Links</Typography>
+                                <ul>
+                                    <li>Home</li>
+                                    <li>About</li>
+                                    <li>Services</li>
+                                    <li>Contact</li>
+                                </ul>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>Resources</Typography>
+                                <ul>
+                                    <li>FAQ</li>
+                                    <li>Terms of Service</li>
+                                    <li>Privacy Policy</li>
+                                    <li>Help Center</li>
+                                </ul>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>Newsletter</Typography>
+                                <Typography variant='body2'>Subscribe to our newsletter for the latest updates.</Typography>
+                                <Box component='form' sx={{ display: 'flex', mt: 2 }}>
+                                    <Button variant='contained' color='secondary' sx={{ ml: 1 }}>Subscribe</Button>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                        <Stack direction='row' spacing={2} justifyContent='center' sx={{ mt: 4 }}>
+                            {/* <FaFacebook size={24} className='cursor-pointer hover:text-lime-300' />
+                            <FaTwitter size={24} className='cursor-pointer hover:text-lime-300' />
+                            <FaInstagram size={24} className='cursor-pointer hover:text-lime-300' />
+                            <FaLinkedin size={24} className='cursor-pointer hover:text-lime-300' /> */}
+                        </Stack>
+                        <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-100'>© 2025 Mainstay Bank. All Rights Reserved.</Typography>
+                    </Container>
+                </Box>
+            </section>
         </PageLayout>
     </Box>
 
