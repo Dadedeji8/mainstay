@@ -52,6 +52,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const { adminUpdateUserWallet, adminDisableUser } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openNotificationDialog, setOpenNotificationDialog] = useState(false);
 
   const [walletAmount, setWalletAmount] = useState(wallet);
   const open = Boolean(anchorEl);
@@ -68,9 +69,16 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
     setOpenDialog(true);
     handleClose();
   };
+  const handleNotificationDialogOpen = () => {
+    setOpenNotificationDialog(true);
+    handleClose();
+  };
 
   const handleDialogClose = () => {
     setOpenDialog(false);
+  };
+  const handleNotificationDialogClose = () => {
+    setOpenNotificationDialog(false);
   };
 
   const handleWalletUpdate = () => {
@@ -107,6 +115,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
           handleClose()
         }}>{isActive ? "Disable" : "Activate"}</MenuItem>
         <MenuItem onClick={handleDialogOpen}>Update Wallet</MenuItem>
+        <MenuItem onClick={handleNotificationDialogOpen}>Send Notification</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Update Wallet</DialogTitle>
@@ -128,6 +137,28 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
         <DialogActions>
           <Button onClick={handleDialogClose}>Cancel</Button>
           <Button onClick={handleWalletUpdate}>Update</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openNotificationDialog} onClose={handleNotificationDialogClose} maxWidth="sm" fullWidth>
+        <DialogTitle>Send Notification</DialogTitle>
+        <DialogContent>
+
+
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Send Notification"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={''}
+          // onChange={(e) => setWalletAmount(e.target.value)}
+          />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleNotificationDialogClose}>Cancel</Button>
+          <Button onClick={''}>Send Notification </Button>
         </DialogActions>
       </Dialog>
     </div>

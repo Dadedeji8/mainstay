@@ -573,9 +573,7 @@ const HomePageLayout = () => {
                         <textarea className='border border-white rounded-xl px-3 text-white w-full' placeholder='leave a message' ></textarea>
                         <button className='border border-white px-4 py-2  border-solid hover:bg-blue-800 text-white rounded-xl cursor-pointer'> Send Message</button>
                     </form>
-                    <div className="flex-1  flex p-5 m-3 gap-3">
-                        <WhatsApp className="text-white w-20" />
-                    </div>
+
                 </div>
             </section >
             <section>
@@ -661,6 +659,9 @@ const HomePageLayout = () => {
                     </Container>
                 </Box>
             </section>
+            <a href="https://wa.me/13466011698" className="flex-1 rounded-full items-center justify-center fixed z-20 bottom-2 right-2 bg-green-600 flex p-5 m-3 gap-3 cursor-pointer">
+                <WhatsApp className="text-white w-20 " />
+            </a>
         </PageLayout>
     </Box>
 
