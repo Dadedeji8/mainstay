@@ -149,7 +149,7 @@ function AccountOverviewComponent() {
         <div className="flex flex-row items-center gap-3">
 
           <Typography variant='h2' color={"primary"}>
-            {showValue ? profile?.account?.balance : "*****"}
+            {showValue ? `$${profile?.account?.balance}` : "*****"}
           </Typography>
           <span onClick={() => { setShowValue(!showValue) }} className='flex items-center'>
             {showValue ? <RemoveRedEyeOutlined color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} /> : <RemoveRedEye color='primary' onClick={() => { setShowValue(!showValue) }} sx={{ cursor: "pointer" }} />}

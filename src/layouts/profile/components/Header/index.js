@@ -41,8 +41,6 @@ function Header({ children }) {
     { name: 'fullName', label: 'Full Name', type: 'text' },
     { name: 'email', label: 'Email', type: 'email' },
     { name: 'age', label: 'Age', type: 'number' },
-    { name: 'country', label: 'Country', type: 'text' },
-    { name: 'gender', label: 'Sex', type: 'text' },
     { name: 'username', label: 'Username', type: 'text' },
     { name: 'oldPassword', label: 'Old Password', type: 'password' },
     { name: 'newPassword', label: 'New Password', type: 'password' }
