@@ -360,8 +360,8 @@ const HomePageLayout = () => {
                 </Carousel>
             </Box>
             <Box marginTop={3}>
-                <Container>
-                    <h3 className="text-[#004AAD] text-5xl font-black text-center uppercase" data-aos="fade-up">
+                <Container >
+                    <h3 id="about-us" className="text-[#004AAD] text-5xl font-black text-center uppercase" data-aos="fade-up">
                         About Us
                     </h3>
                     <img src={logoMain} alt="" className="w-2/5 m-auto object-cover " />
@@ -399,7 +399,7 @@ const HomePageLayout = () => {
             </Box>
             <Box marginTop={10}>
                 <Container className="m-auto my-10">
-                    <h3 className="text-[#004AAD] text-5xl font-black text-center uppercase">
+                    <h3 id="our-services" className="text-[#004AAD] text-5xl font-black text-center uppercase">
                         Our Services
                     </h3>
 
@@ -626,10 +626,10 @@ const HomePageLayout = () => {
                             <Grid item xs={12} md={3}>
                                 <Typography variant='h6' className="text-white" gutterBottom>Quick Links</Typography>
                                 <ul>
-                                    <li>Home</li>
-                                    <li>About</li>
-                                    <li>Services</li>
-                                    <li>Contact</li>
+                                    <li> <a href="/">Home</a></li>
+                                    <li> <a href="#about-us">About</a></li>
+                                    <li> <a href="#our-services">Services</a></li>
+                                    <li> <a href="#contact-us">Contact</a></li>
                                 </ul>
                             </Grid>
                             <Grid item xs={12} md={3}>
