@@ -75,8 +75,8 @@ function Notifications() {
               </MDBox>
               <MDBox pt={2} px={2} pb={2} >
                 {notifications?.map((notification) => {
-                  return <Box key={notification._id}> <Box className='outline outline-gray-200 rounded mb-1  p-2 py-4  flex justify-between items-center'>
-                    <p className='text-blue-600  text-sm'>
+                  return <Box key={notification._id}> <Box className={`outline outline-gray-200 rounded mb-1  p-2 py-4  flex justify-between items-center ${notification.message.match("reject") ? 'outline-red-300' : ''}  ${notification.message.match("approve") ? 'text-green-600 outline-green-300' : ''}`}>
+                    <p className={`text-blue-600  text-sm ${notification.message.match("reject") ? 'text-red-600' : ''} ${notification.message.match("approve") ? 'text-green-600' : ''}`}>
                       {notification.message}
                     </p>
                     <p className='text-gray-400  text-[10px]'>

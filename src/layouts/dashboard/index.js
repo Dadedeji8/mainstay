@@ -188,11 +188,11 @@ function NotificationComponent() {
       <Stack className='h-[200px]  overflow-y-scroll' >
 
         {notifications?.map((notification) => {
-          return <Box key={notification._id}> <Box className='outline outline-gray-200 rounded mb-1  p-2 py-4   justify-between items-center'>
-            <Link to={'/notifications'}>   <p className='text-blue-800  text-sm'>
+          return <Box key={notification._id}> <Box className={`outline outline-gray-200 rounded mb-1  p-2 py-4   justify-between items-center ${notification.message.match("reject") ? 'outline-red-300' : ''} ${notification.message.match("approve") ? 'outline-green-600' : ''}`}>
+            <Link to={'/notifications'}>   <p className={`text-blue-800  text-sm ${notification.message.match("reject") ? 'text-red-600' : ''} ${notification.message.match("approve") ? 'text-green-600' : ''}`}>
               {(notification.message).slice(0, -8)}...
             </p>
-              <p className='text-gray-400  text-[10px]'>
+              <p className={`text-gray-400  text-[10px] `}>
                 {moment(notification.createdAt).format('MMMM Do h:mm:ss a')}
               </p></Link>
           </Box>
