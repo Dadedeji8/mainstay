@@ -75,6 +75,17 @@ function DefaultNavbar({ transparent, light, action }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener('resize', displayMobileNavbar)
   }, [])
+  // const handleClick = (event) => {
+  //   if (route.startsWith("#")) {
+  //     event.preventDefault(); // Prevent default navigation
+  //     const sectionId = route.substring(1); // Remove `#`
+  //     const section = document.getElementById(sectionId);
+
+  //     if (section) {
+  //       section.scrollIntoView({ behavior: "smooth" });
+  //     }
+  //   }
+  // };
 
   return (
     <Container>
@@ -126,12 +137,8 @@ function DefaultNavbar({ transparent, light, action }) {
             route="/"
             light={light}
           />
-          <DefaultNavbarLink
-            icon="person"
-            name="Contact Us"
-            route="/"
-            light={light}
-          />
+          <DefaultNavbarLink icon="person" name="Contact Us" route="#contact-us" light={light} />
+
           <DefaultNavbarLink
             icon="account_circle"
             name="sign up"

@@ -176,7 +176,7 @@ function Header({ children }) {
         </Dialog>
         <Dialog open={openVerify} onClose={handleVerifyClose}>
           <div className='min-w-[350px]'>
-            <DialogTitle>Upload SSN Photo</DialogTitle>
+            <DialogTitle className='text-sm'>Upload Valid Government ID</DialogTitle>
             <DialogContent>
               <div>
                 <FileUploaderRegular

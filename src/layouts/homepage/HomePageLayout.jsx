@@ -29,7 +29,7 @@ import cat7 from '../../assets/images/cat7.jpg'
 import cat6 from '../../assets/images/cat6.jpg'
 
 import logoMain from '../../assets/images/Mainstay logo2.png'
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, LocationOn, Phone, WhatsApp } from "@mui/icons-material";
 AOS.init();
 const HomePageLayout = () => {
     const navigate = useNavigate()
@@ -398,7 +398,7 @@ const HomePageLayout = () => {
 
             </Box>
             <Box marginTop={10}>
-                <Container className="m-auto">
+                <Container className="m-auto my-10">
                     <h3 className="text-[#004AAD] text-5xl font-black text-center uppercase">
                         Our Services
                     </h3>
@@ -559,8 +559,8 @@ const HomePageLayout = () => {
                     {/* </Carousel> */}
                 </Container>
             </Box>
-            <section>
-                <div className='bg-blue-800 flex flex-col justify-center w-full items-center h-[400px]'>
+            <section id="contact-us">
+                <div className='bg-blue-800 flex flex-col justify-center w-full items-center min-h-[400px]'>
                     <div>
                         <h1 className="text-white text-4xl font-bold my-5">
                             Get in Touch
@@ -573,9 +573,9 @@ const HomePageLayout = () => {
                         <textarea className='border border-white rounded-xl px-3 text-white w-full' placeholder='leave a message' ></textarea>
                         <button className='border border-white px-4 py-2  border-solid hover:bg-blue-800 text-white rounded-xl cursor-pointer'> Send Message</button>
                     </form>
-                    {/* <div className="flex-1 hidden md:flex bg-black h-full">
-
-                    </div> */}
+                    <div className="flex-1  flex p-5 m-3 gap-3">
+                        <WhatsApp className="text-white w-20" />
+                    </div>
                 </div>
             </section >
             <section>
@@ -616,6 +616,14 @@ const HomePageLayout = () => {
                             <Grid item xs={12} md={3}>
                                 <Typography variant='h6' className="text-white" gutterBottom>About Us</Typography>
                                 <Typography variant='body2'>Mainstay Bank provides secure and innovative banking solutions for individuals and businesses.</Typography>
+                                <Box>
+                                    <LocationOn /><Typography variant="body2" className='text-white'> Head office Address:1328 Cornerway Blvd
+                                        San Antonio, TX 78219, USA</Typography>
+
+
+                                </Box>
+                                <Box className='flex items-center'>
+                                </Box> <Phone />    <a href="tel:+13466011698">  + 13466011698 </a>
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Typography variant='h6' className="text-white" gutterBottom>Quick Links</Typography>

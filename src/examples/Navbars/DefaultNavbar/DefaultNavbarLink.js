@@ -27,6 +27,18 @@ import MDBox from 'components/MDBox'
 import MDTypography from 'components/MDTypography'
 
 function DefaultNavbarLink({ icon, name, route, light }) {
+  const handleClick = (event) => {
+    if (route.startsWith("#")) {
+      event.preventDefault(); // Prevent default navigation
+      const sectionId = route.substring(1); // Remove `#`
+      const section = document.getElementById(sectionId);
+
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <MDBox
       component={Link}
@@ -35,6 +47,7 @@ function DefaultNavbarLink({ icon, name, route, light }) {
       p={1}
       display="flex"
       alignItems="center"
+      onClick={handleClick}
       sx={{ cursor: 'pointer', userSelect: 'none' }}
     >
       <Icon
