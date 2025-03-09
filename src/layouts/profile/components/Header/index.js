@@ -116,7 +116,7 @@ function Header({ children }) {
       <Card sx={{ position: 'relative', mt: -8, mx: 3, py: 2, px: 2 }}>
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={ProfileImg} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={profile?.avatar || ProfileImg} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDTypography variant="h5" fontWeight="medium">
@@ -149,6 +149,17 @@ function Header({ children }) {
           <div className='min-w-[350px]'>
             <DialogTitle>Update Profile</DialogTitle>
             <DialogContent>
+              <Box className='flex justify-between  items-center my-2'>
+                <FileUploaderRegular
+                  sourceList="local, camera, gdrive"
+                  cameraModes="photo, video"
+                  classNameUploader="uc-light"
+                  pubkey="de06d3627e924744c45e"
+                  onChange={handleFileUpload}
+                />
+                <Typography className='text-[14px]'>Update Profile Picture</Typography>
+              </Box>
+              <hr></hr>
               {inputFieldSet.map((input) => (
                 <Box className='flex gap-2 items-center mb-2' key={input.name}>
                   {fieldEdited === input.name ? (
@@ -182,7 +193,7 @@ function Header({ children }) {
                   cameraModes="photo, video"
                   classNameUploader="uc-light"
                   pubkey="de06d3627e924744c45e"
-                  onChange={handleFileUpload} // Handle file upload
+                  onChange={handleFileUpload}
                 />
 
 
