@@ -129,15 +129,14 @@ function Dashboard() {
                   {/* <AccountOverviewComponent /> */}
 
                   <Card className='p-3 flex  gap-3 items-center ' >
-                    <div >
+                    <div className='w-full' >
                       <Typography className='text-blue-900 text-sm font-bold'>
                         Send General Notification
                       </Typography>
                     </div>
-                    <div className='flex gap-2'>
-                      <input type='text' placeholder='Send General Notification' className='border border-1 border-gray-400 p-2 rounded-xl w-full' onChange={e => {
+                    <div className='flex gap-2 w-full'>
+                      <input type='text' placeholder='Send General Notification' className='border border-1 border-gray-400 p-2 rounded w-full text-sm' onChange={e => {
                         setGeneralNotification(e.target.value)
-                        console.log(generalNotification)
                       }} />
                       <Button variant='contained' className='text-white' onClick={sendGeneralNotification}> Send </Button>
                     </div>
