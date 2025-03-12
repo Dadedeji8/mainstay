@@ -6,6 +6,7 @@ import DataTable from 'examples/Tables/DataTable';
 import { MoreVert } from '@mui/icons-material';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 
 function UsersTableComponent() {
@@ -49,14 +50,16 @@ function UsersTableComponent() {
 export default UsersTableComponent
 
 const UserActionMenu = ({ rowId, wallet, isActive }) => {
-  const { adminUpdateUserWallet, adminDisableUser } = useAuth()
+  const { adminUpdateUserWallet, adminDisableUser, newNotification } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [openNotificationDialog, setOpenNotificationDialog] = useState(false);
   const [openUserDocs, setOpenUserDocs] = useState(false)
   const [walletAmount, setWalletAmount] = useState(wallet);
+
   const open = Boolean(anchorEl);
   const [notificationContent, setNotificationContent] = useState(null)
+  const [sendingNotification, setSendingNotification] = useState(false)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -95,7 +98,20 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
     console.log(`Updating wallet for user ${rowId} with amount ${walletAmount}`);
     handleDialogClose();
   };
-
+  const sendNotification = async () => {
+    try {
+      setSendingNotification(true)
+      newNotification({
+        id: rowId,
+        message: notificationContent
+      })
+      setSendingNotification(false)
+      setOpenNotificationDialog(false)
+      toast.success('notification sent successfully')
+    } catch (error) {
+      console.log('failed to send notification', error)
+    }
+  }
   return (
     <div>
       <IconButton
@@ -159,14 +175,19 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
             type="text"
             fullWidth
             variant="standard"
-            value={''}
-          // onChange={(e) => setWalletAmount(e.target.value)}
+            value={notificationContent}
+
+            onChange={(e) => {
+              setNotificationContent(e.target.value)
+              console.log(notificationContent)
+            }
+            }
           />
 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleNotificationDialogClose}>Cancel</Button>
-          <Button onClick={''}>Send Notification </Button>
+          <Button onClick={sendNotification}>{sendingNotification ? 'Sending ' : 'Send Notification'}</Button>
 
         </DialogActions>
         {/* this is the user profile section below */}

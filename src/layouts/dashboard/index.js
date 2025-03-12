@@ -29,6 +29,7 @@ import React from 'react'
 import UsersTableComponent from 'components/TableComponent/UserTableComponent'
 import { useAuth } from 'context/AuthContext'
 import { Link } from 'react-router-dom'
+import MDInput from 'components/MDInput'
 
 
 function Dashboard() {
@@ -118,6 +119,13 @@ function Dashboard() {
 
                   {/* <AccountOverviewComponent /> */}
                   <NotificationComponent />
+                  <MDBox>
+                    <MDInput
+                      label='Send General Notification'
+                      variant="standard"
+                      type='text'
+                    />
+                  </MDBox>
                 </MDBox>
 
               </Grid>

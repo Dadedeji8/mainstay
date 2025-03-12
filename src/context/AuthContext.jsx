@@ -494,6 +494,29 @@ export const AuthProvider = ({ children }) => {
             )
             .catch((error) => console.error(error));
     }
+    const newNotification = (data) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json")
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            redirect: "follow",
+            body: JSON.stringify({
+                userId: data.id || null,
+                message: data.message
+            })
+
+        };
+
+        fetch(`${endpoint}/notification`, requestOptions)
+            .then((response) => { return response.json() })
+            .then((result) => { setNotifications(result?.notifications) }
+
+            )
+            .catch((error) => console.error(error));
+    }
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin,
@@ -517,6 +540,7 @@ export const AuthProvider = ({ children }) => {
             makeWithdrawel,
             withdrawals,
             notifications,
+            newNotification,
             setWithdrawals,
             allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
         }}>
