@@ -29,6 +29,7 @@ function Header({ children }) {
   const [openVerify, setOpenVerify] = useState(false)
   const [uploading, setUploading] = useState(false);
   const [avatar, setAvatar] = useState(null);
+  const [documents, setDocuments] = useState([])
   useEffect(() => {
     function handleTabsOrientation() {
       setTabsOrientation(window.innerWidth < breakpoints.values.sm ? 'vertical' : 'horizontal')
@@ -63,6 +64,27 @@ function Header({ children }) {
         }
       }, 500); // Check every 500ms until cdnUrl is available
     }
+  };
+  const handleDocumentUpload = (e) => {
+    if (e.allEntries && e.allEntries.length > 0) {
+      setUploading(true); // Show loading indicator
+
+      const fileEntry = e.allEntries[0]; // Get first uploaded file
+
+      const checkForCDNUrl = setInterval(() => {
+        if (fileEntry.cdnUrl) {
+          clearInterval(checkForCDNUrl); // Stop checking when cdnUrl is available
+          setDocuments(item => [...item, fileEntry.cdnUrl]); // Update state with cdnUrl
+          updateProfile({
+            documents
+              : documents
+          })
+          setUploading(false); // Hide loading indicator
+          console.log('File uploaded successfully:', documents);
+        }
+      }, 500); // Check every 500ms until cdnUrl is available
+    }
+    toast('File Uploaded will be Authenticated by Administration')
   };
 
 
@@ -193,7 +215,7 @@ function Header({ children }) {
                   cameraModes="photo, video"
                   classNameUploader="uc-light"
                   pubkey="de06d3627e924744c45e"
-                  onChange={handleFileUpload}
+                  onChange={handleDocumentUpload}
                 />
 
 

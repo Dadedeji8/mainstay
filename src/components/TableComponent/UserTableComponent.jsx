@@ -53,10 +53,10 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [openNotificationDialog, setOpenNotificationDialog] = useState(false);
-
+  const [openUserDocs, setOpenUserDocs] = useState(false)
   const [walletAmount, setWalletAmount] = useState(wallet);
   const open = Boolean(anchorEl);
-
+  const [notificationContent, setNotificationContent] = useState(null)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -73,12 +73,19 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
     setOpenNotificationDialog(true);
     handleClose();
   };
+  const handleUserDocsDialogOpen = () => {
+    setOpenUserDocs(true);
+    handleClose();
+  };
 
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
   const handleNotificationDialogClose = () => {
     setOpenNotificationDialog(false);
+  };
+  const handleUserDocsDialogClose = () => {
+    setOpenUserDocs(false);
   };
 
   const handleWalletUpdate = () => {
@@ -116,6 +123,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
         }}>{isActive ? "Disable" : "Activate"}</MenuItem>
         <MenuItem onClick={handleDialogOpen}>Update Wallet</MenuItem>
         <MenuItem onClick={handleNotificationDialogOpen}>Send Notification</MenuItem>
+        <MenuItem onClick={handleUserDocsDialogOpen}>View Profile</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Update Wallet</DialogTitle>
@@ -159,6 +167,21 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
         <DialogActions>
           <Button onClick={handleNotificationDialogClose}>Cancel</Button>
           <Button onClick={''}>Send Notification </Button>
+
+        </DialogActions>
+        {/* this is the user profile section below */}
+      </Dialog>
+      <Dialog open={openUserDocs} onClose={handleUserDocsDialogClose} maxWidth="sm" fullWidth>
+        <DialogTitle>User Profile </DialogTitle>
+        <DialogContent>
+
+          <h1>this is where the user profile go</h1>
+
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleUserDocsDialogClose}>Close</Button>
+
         </DialogActions>
       </Dialog>
     </div>
