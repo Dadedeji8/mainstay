@@ -19,7 +19,7 @@ function UsersTableComponent() {
     isAdmin: user.isAdmin ? 'Admin' : 'User',
     isActive: user.isActive ? 'Active' : 'Disabled',
     createdAt: moment(user.createdAt).format('DD MMM yyy'),
-    action: <UserActionMenu rowId={user._id} wallet={user.account.balance} isActive={user.isActive} />,
+    action: <UserActionMenu user={user} rowId={user._id} wallet={user.account.balance} isActive={user.isActive} />,
   }))
   return (
     <div className="">
@@ -49,8 +49,8 @@ function UsersTableComponent() {
 
 export default UsersTableComponent
 
-const UserActionMenu = ({ rowId, wallet, isActive }) => {
-  const { adminUpdateUserWallet, adminDisableUser, newNotification, getProfile, singleUser } = useAuth()
+const UserActionMenu = ({ rowId, wallet, isActive, user }) => {
+  const { adminUpdateUserWallet, adminDisableUser, newNotification, getProfile } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [openNotificationDialog, setOpenNotificationDialog] = useState(false);
@@ -94,7 +94,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const handleWalletUpdate = () => {
     // Logic to update wallet amount
 
-    adminUpdateUserWallet({ id: rowId, amount: walletAmount });
+    adminUpdateUserWallet({ id: rowId, amount: walletAmount, user });
     console.log(`Updating wallet for user ${rowId} with amount ${walletAmount}`);
     handleDialogClose();
   };
@@ -141,7 +141,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
         <MenuItem onClick={handleNotificationDialogOpen}>Send Notification</MenuItem>
         <MenuItem onClick={() => {
           handleUserDocsDialogOpen()
-          getProfile(rowId)
+
         }}>View Profile</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
@@ -201,24 +201,29 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
 
 
           <div>
-            <img src={singleUser?.avatar} alt="" className='w-56 m-auto' />
+            <img src={user?.avatar} alt="" className='w-56 m-auto' />
             <Typography>
-              {singleUser?.fullName
+              {user?.fullName
               }
             </Typography>
             <Typography>
-              {singleUser?.email
+              {user?.email
               }
             </Typography>
             <Typography>
-              {singleUser?.gender
+              {user?.username
               }
             </Typography>
             <Typography>
-              {singleUser?.gender
+              {user?.gender
               }
             </Typography>
-            {singleUser?.documents > 0 ? singleUser?.documents.map((imglink, index) => { return <img src={imglink} key={index} /> }) : ''}
+            <div className='grid md:grid-cols-2 gap-2'>
+              <Typography className='font-sm font-black'>
+                Documents
+              </Typography>
+              {user?.documents.length > 0 ? user?.documents.map((imglink, index) => { return <img src={imglink} key={index} className='md:w-56 w-full object-contain m-auto' /> }) : ''}
+            </div>
           </div>
 
         </DialogContent>
@@ -236,4 +241,12 @@ UserActionMenu.propTypes = {
   rowId: PropTypes.string.isRequired,
   wallet: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    avatar: PropTypes.string,
+    fullName: PropTypes.string,
+    email: PropTypes.string,
+    gender: PropTypes.string,
+    username: PropTypes.string,
+    documents: PropTypes.arrayOf(PropTypes.string), // Assuming it's an array of image URLs
+  }).isRequired,
 };
