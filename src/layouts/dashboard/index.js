@@ -30,16 +30,25 @@ import UsersTableComponent from 'components/TableComponent/UserTableComponent'
 import { useAuth } from 'context/AuthContext'
 import { Link } from 'react-router-dom'
 import MDInput from 'components/MDInput'
+import { toast } from 'react-toastify'
 
 
 function Dashboard() {
 
-  const { isAdmin, allUsers, deposits, withdrawals } = useAuth()
+  const { isAdmin, allUsers, deposits, withdrawals, newNotification } = useAuth()
   useEffect(() => {
     console.log({ isAdmin })
   }
     , [isAdmin])
-
+  const [generalNotification, setGeneralNotification] = useState(null)
+  const sendGeneralNotification = () => {
+    try {
+      newNotification({ message: generalNotification })
+      toast.success('General Notification Send Successfully')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -118,14 +127,21 @@ function Dashboard() {
                 >
 
                   {/* <AccountOverviewComponent /> */}
-                  <NotificationComponent />
-                  <MDBox>
-                    <MDInput
-                      label='Send General Notification'
-                      variant="standard"
-                      type='text'
-                    />
-                  </MDBox>
+
+                  <Card className='p-3 flex  gap-3 items-center ' >
+                    <div >
+                      <Typography className='text-blue-900 text-sm font-bold'>
+                        Send General Notification
+                      </Typography>
+                    </div>
+                    <div className='flex gap-2'>
+                      <input type='text' placeholder='Send General Notification' className='border border-1 border-gray-400 p-2 rounded-xl w-full' onChange={e => {
+                        setGeneralNotification(e.target.value)
+                        console.log(generalNotification)
+                      }} />
+                      <Button variant='contained' className='text-white' onClick={sendGeneralNotification}> Send </Button>
+                    </div>
+                  </Card>
                 </MDBox>
 
               </Grid>
