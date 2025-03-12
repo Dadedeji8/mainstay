@@ -1,7 +1,7 @@
 import { useAuth } from 'context/AuthContext'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, Menu, MenuItem, Select } from '@mui/material';
+import { Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, Menu, MenuItem, Select, Typography } from '@mui/material';
 import DataTable from 'examples/Tables/DataTable';
 import { MoreVert } from '@mui/icons-material';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
@@ -50,7 +50,7 @@ function UsersTableComponent() {
 export default UsersTableComponent
 
 const UserActionMenu = ({ rowId, wallet, isActive }) => {
-  const { adminUpdateUserWallet, adminDisableUser, newNotification } = useAuth()
+  const { adminUpdateUserWallet, adminDisableUser, newNotification, getProfile, singleUser } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [openNotificationDialog, setOpenNotificationDialog] = useState(false);
@@ -139,7 +139,10 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
         }}>{isActive ? "Disable" : "Activate"}</MenuItem>
         <MenuItem onClick={handleDialogOpen}>Update Wallet</MenuItem>
         <MenuItem onClick={handleNotificationDialogOpen}>Send Notification</MenuItem>
-        <MenuItem onClick={handleUserDocsDialogOpen}>View Profile</MenuItem>
+        <MenuItem onClick={() => {
+          handleUserDocsDialogOpen()
+          getProfile(rowId)
+        }}>View Profile</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Update Wallet</DialogTitle>
@@ -196,8 +199,27 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
         <DialogTitle>User Profile </DialogTitle>
         <DialogContent>
 
-          <h1>this is where the user profile go</h1>
 
+          <div>
+            <img src={singleUser?.avatar} alt="" className='w-56 m-auto' />
+            <Typography>
+              {singleUser?.fullName
+              }
+            </Typography>
+            <Typography>
+              {singleUser?.email
+              }
+            </Typography>
+            <Typography>
+              {singleUser?.gender
+              }
+            </Typography>
+            <Typography>
+              {singleUser?.gender
+              }
+            </Typography>
+            {singleUser?.documents > 0 ? singleUser?.documents.map((imglink, index) => { return <img src={imglink} key={index} /> }) : ''}
+          </div>
 
         </DialogContent>
         <DialogActions>

@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
     const [notifications, setNotifications] = useState([])
-
+    const [singleUser, setSingleUser] = useState(null)
 
     const [error, setError] = useState(null)
     const [allUsers, setAllUsers] = useState([])
@@ -43,7 +43,14 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         console.log({ isAdmin })
+        console.log(allUsers)
     }, [isAdmin]); // Runs only on mount
+
+    // get all users
+    // useEffect(() => {
+
+    //     console.log(allUsers)
+    // }, [allUsers]);
 
     useEffect(() => {
         if (!token) {
@@ -64,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
     }, [token]);
 
-    function getProfile() {
+    function getProfile(id) {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
 
@@ -74,7 +81,7 @@ export const AuthProvider = ({ children }) => {
             redirect: "follow"
         };
 
-        fetch(`${endpoint}/user/profile`, requestOptions)
+        fetch(`${endpoint}/user/profile${id ? '?id=' + id : ''}`, requestOptions)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -87,7 +94,11 @@ export const AuthProvider = ({ children }) => {
                 if (!result || Object.keys(result).length === 0) {
                     throw new Error("Received empty response from API");
                 }
-
+                if (id) {
+                    setSingleUser(result)
+                    console.log('single user fetched', result)
+                    return result
+                }
                 setProfile(result); //  Update state
                 setIsAdmin(result.isAdmin)
                 localStorage.setItem("profile", JSON.stringify(result));
@@ -542,7 +553,7 @@ export const AuthProvider = ({ children }) => {
             notifications,
             newNotification,
             setWithdrawals,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
+            singleUser, allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
         }}>
             {children}
         </AuthenticationContext.Provider>
