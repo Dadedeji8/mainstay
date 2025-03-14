@@ -94,10 +94,10 @@ function Header({ children }) {
   }
 
   const updateProfileDetails = () => {
-    if (Object.keys(profileStage).length === 0) {
-      toast.error('No changes detected')
-      return
-    }
+    // if (Object.keys(profileStage).length === 0) {
+    //   toast.error('No changes detected')
+    //   return
+    // }
     setUpdating(true)
     updateProfile(profileStage)
       .then(() => {
