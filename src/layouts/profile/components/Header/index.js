@@ -145,7 +145,8 @@ function Header({ children }) {
               {profile?.fullName || 'User Name'}
             </MDTypography>
             <MDTypography variant="button" color="text" fontWeight="regular">
-              {profile?.email} <span className='underline text-red-500'>{profile?.emailVerified ? 'Verified' : 'Not Verified'}</span>
+              {profile?.email}
+
             </MDTypography>
           </Grid>
           <Grid item>
