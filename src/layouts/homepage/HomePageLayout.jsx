@@ -571,7 +571,7 @@ const HomePageLayout = () => {
                         <input className='text-white rounded-xl border p-3 border-white w-full' placeholder='Name' />
                         <input className='text-white rounded-xl border p-3 border-white w-full' placeholder='Email' />
                         <textarea className='border border-white rounded-xl px-3 text-white w-full' placeholder='leave a message' ></textarea>
-                        <button className='border border-white px-4 py-2  border-solid hover:bg-blue-800 text-white rounded-xl cursor-pointer'> Send Message</button>
+                        <button className='border border-white px-4 py-2  border-solid hover:bg-blue-800 text-white rounded-xl cursor-pointer'><a href="mailto:support@themainstay.online"> Send Message</a> </button>
                     </form>
 
                 </div>
