@@ -67,7 +67,8 @@ function Footer({ company, links }) {
           </MDTypography>
         </Link>
         for a better web.
-      </MDBox>
+
+        <a href="mailto:support@themainstay.online">Send Us A Mail Now at support@themainstay.online</a>      </MDBox>
       <MDBox
         component="ul"
         sx={({ breakpoints }) => ({

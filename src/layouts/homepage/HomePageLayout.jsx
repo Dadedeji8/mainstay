@@ -655,7 +655,7 @@ const HomePageLayout = () => {
                             <FaInstagram size={24} className='cursor-pointer hover:text-lime-300' />
                             <FaLinkedin size={24} className='cursor-pointer hover:text-lime-300' /> */}
                         </Stack>
-                        <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-100'>© 2025 Mainstay Bank. All Rights Reserved.</Typography>
+                        <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-100'>© 2025 Mainstay Bank. All Rights Reserved.<a href="mailto:support@themainstay.online">  Send Us A Mail Now at support@themainstay.online</a></Typography>
                     </Container>
                 </Box>
             </section>
