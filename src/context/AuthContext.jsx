@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
         const storedProfile = JSON.parse(localStorage.getItem("profile"));
-        
+
         if (storedToken && !isTokenExpired(storedToken)) {
             setToken(storedToken);
             if (storedProfile) {
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
             navigate('/authentication/sign-in');
             throw new Error('Session expired. Please log in again.');
         }
-        
+
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
         return myHeaders;
@@ -146,7 +146,7 @@ export const AuthProvider = ({ children }) => {
     function getProfile(id) {
         try {
             const myHeaders = validateAndGetHeaders();
-            
+
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
@@ -164,7 +164,7 @@ export const AuthProvider = ({ children }) => {
                         navigate('/authentication/sign-in');
                         throw new Error('Session expired. Please log in again.');
                     }
-                    
+
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
@@ -176,21 +176,21 @@ export const AuthProvider = ({ children }) => {
                     if (!result || Object.keys(result).length === 0) {
                         throw new Error("Received empty response from API");
                     }
-                    
+
                     if (id) {
                         setSingleUser(result);
                         console.log('single user fetched', result);
                         return result;
                     }
-                    
+
                     // Update profile and admin status
                     setProfile(result);
                     setIsAdmin(result.isAdmin || false);
                     setIsAuthenticated(true);
-                    
+
                     // Save to localStorage
                     localStorage.setItem("profile", JSON.stringify(result));
-                    
+
                     return result;
                 })
                 .catch((error) => {
@@ -482,7 +482,7 @@ export const AuthProvider = ({ children }) => {
                 setToken(null);
                 setProfile(null);
                 setIsAuthenticated(false);
-                
+
                 throw new Error(result.error || 'Failed to log in. Please check your credentials.');
             }
 
@@ -494,7 +494,7 @@ export const AuthProvider = ({ children }) => {
             // Store the new token and profile
             localStorage.setItem('token', result.token);
             localStorage.setItem('profile', JSON.stringify(result.user));
-            
+
             // Update state
             setToken(result.token);
             setProfile(result.user);
@@ -511,10 +511,10 @@ export const AuthProvider = ({ children }) => {
             setToken(null);
             setProfile(null);
             setIsAuthenticated(false);
-            
-            return { 
-                success: false, 
-                error: error.message || 'An error occurred during login. Please try again.' 
+
+            return {
+                success: false,
+                error: error.message || 'An error occurred during login. Please try again.'
             };
         }
     };
@@ -608,23 +608,23 @@ export const AuthProvider = ({ children }) => {
         try {
             // Clear all authentication data from localStorage
             clearAuthData();
-            
+
             // Reset all auth-related state
             setToken(null);
             setProfile(null);
             setIsAdmin(false);
             setIsAuthenticated(false);
-            
+
             // Clear any stored notifications or user data
             setNotifications([]);
             setAllUsers([]);
             setTransactionsHistory([]);
             setDeposits([]);
             setWithdrawals([]);
-            
+
             // Redirect to login page
             navigate('/authentication/sign-in');
-            
+
             console.log('User logged out successfully');
         } catch (error) {
             console.error('Error during logout:', error);
@@ -646,12 +646,9 @@ export const AuthProvider = ({ children }) => {
             headers: myHeaders,
             redirect: "follow"
         };
-
         fetch(`${endpoint}/notification`, requestOptions)
             .then((response) => { return response.json() })
-            .then((result) => { setNotifications(result?.notifications) }
-
-            )
+            .then((result) => { setNotifications(result?.notifications) })
             .catch((error) => console.error(error));
     }
     const newNotification = (data) => {
