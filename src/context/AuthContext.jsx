@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { isTokenExpired, validateStoredToken, clearAuthData } from '../utils/authUtils';
 
 
 const AuthenticationContext = createContext();
@@ -29,17 +31,34 @@ export const AuthProvider = ({ children }) => {
 
     const [withdrawals, setWithdrawals] = useState([])
 
+    const navigate = useNavigate();
+
+    // Check token validity on mount and set authentication state
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
-        if (storedToken) {
-            setToken(storedToken);
-        }
         const storedProfile = JSON.parse(localStorage.getItem("profile"));
-        if (storedProfile) {
-            setProfile(storedProfile);
-            setIsAdmin(storedProfile.isAdmin);
+        
+        if (storedToken && !isTokenExpired(storedToken)) {
+            setToken(storedToken);
+            if (storedProfile) {
+                setProfile(storedProfile);
+                setIsAdmin(storedProfile.isAdmin || false);
+                setIsAuthenticated(true);
+            }
+        } else {
+            // Clear invalid or expired token
+            clearAuthData();
+            setToken(null);
+            setProfile(null);
+            setIsAdmin(false);
+            setIsAuthenticated(false);
+            // Redirect to login if not already there
+            if (!window.location.pathname.includes('sign-in') && !window.location.pathname.includes('sign-up')) {
+                navigate('/authentication/sign-in');
+            }
         }
-    }, []); // Runs only on mount
+        setLoading(false);
+    }, [navigate]);
 
     useEffect(() => {
         console.log({ isAdmin })
@@ -71,39 +90,124 @@ export const AuthProvider = ({ children }) => {
 
     }, [token]);
 
-    function getProfile(id) {
+    // Helper function to validate token before making API calls
+    const validateAndGetHeaders = () => {
+        if (!token || isTokenExpired(token)) {
+            clearAuthData();
+            setToken(null);
+            setProfile(null);
+            setIsAuthenticated(false);
+            navigate('/authentication/sign-in');
+            throw new Error('Session expired. Please log in again.');
+        }
+        
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
+        return myHeaders;
+    };
 
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
+    // Helper function to handle authenticated API requests
+    const makeAuthenticatedRequest = async (url, options = {}) => {
+        try {
+            const myHeaders = validateAndGetHeaders();
+            const defaultOptions = {
+                headers: myHeaders,
+                redirect: 'follow',
+                ...options,
+                headers: {
+                    ...myHeaders,
+                    ...(options.headers || {})
+                }
+            };
 
-        fetch(`${endpoint}/user/profile${id ? '?id=' + id : ''}`, requestOptions)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((result) => {
-                console.log("Fetched profile result:", result);
+            const response = await fetch(url, defaultOptions);
 
-                if (!result || Object.keys(result).length === 0) {
-                    throw new Error("Received empty response from API");
-                }
-                if (id) {
-                    setSingleUser(result)
-                    console.log('single user fetched', result)
-                    return result
-                }
-                setProfile(result); //  Update state
-                setIsAdmin(result.isAdmin)
-                localStorage.setItem("profile", JSON.stringify(result));
-            })
-            .catch((error) => console.error("Error fetching profile:", error));
+            if (response.status === 401) {
+                clearAuthData();
+                setToken(null);
+                setProfile(null);
+                setIsAuthenticated(false);
+                navigate('/authentication/sign-in');
+                throw new Error('Session expired. Please log in again.');
+            }
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+            }
+
+            return response;
+        } catch (error) {
+            console.error('API request failed:', error);
+            throw error;
+        }
+    };
+
+    function getProfile(id) {
+        try {
+            const myHeaders = validateAndGetHeaders();
+            
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+
+            return fetch(`${endpoint}/user/profile${id ? '?id=' + id : ''}`, requestOptions)
+                .then((response) => {
+                    if (response.status === 401) {
+                        // Unauthorized - token is invalid or expired
+                        clearAuthData();
+                        setToken(null);
+                        setProfile(null);
+                        setIsAuthenticated(false);
+                        navigate('/authentication/sign-in');
+                        throw new Error('Session expired. Please log in again.');
+                    }
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((result) => {
+                    console.log("Fetched profile result:", result);
+
+                    if (!result || Object.keys(result).length === 0) {
+                        throw new Error("Received empty response from API");
+                    }
+                    
+                    if (id) {
+                        setSingleUser(result);
+                        console.log('single user fetched', result);
+                        return result;
+                    }
+                    
+                    // Update profile and admin status
+                    setProfile(result);
+                    setIsAdmin(result.isAdmin || false);
+                    setIsAuthenticated(true);
+                    
+                    // Save to localStorage
+                    localStorage.setItem("profile", JSON.stringify(result));
+                    
+                    return result;
+                })
+                .catch((error) => {
+                    console.error('Error in getProfile:', error);
+                    if (error.message.includes('Session expired') || error.message.includes('401')) {
+                        clearAuthData();
+                        setToken(null);
+                        setProfile(null);
+                        setIsAuthenticated(false);
+                        navigate('/authentication/sign-in');
+                    }
+                    throw error;
+                });
+        } catch (error) {
+            console.error('Error in getProfile:', error);
+            throw error;
+        }
     }
     async function updateProfile(data, onSuccess, onError) {
         const token = localStorage.getItem("token");
@@ -370,28 +474,48 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(data),
             });
 
-            const result = await response.json(); // Parse JSON first
+            const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.error || 'Failed to log in'); // Use API error message if available
+                // Clear any existing auth data on failed login
+                clearAuthData();
+                setToken(null);
+                setProfile(null);
+                setIsAuthenticated(false);
+                
+                throw new Error(result.error || 'Failed to log in. Please check your credentials.');
             }
-            // return console.log({ result })
 
+            // Validate the received token
+            if (!result.token || !result.user) {
+                throw new Error('Invalid response from server');
+            }
+
+            // Store the new token and profile
             localStorage.setItem('token', result.token);
             localStorage.setItem('profile', JSON.stringify(result.user));
+            
+            // Update state
             setToken(result.token);
             setProfile(result.user);
-            setIsAdmin(result.user.isAdmin);
+            setIsAdmin(result.user.isAdmin || false);
+            setIsAuthenticated(true);
 
-
-
-            console.log('Login successful. Token:', result.token);
-            return { success: true, data: result }; // Return success status
+            console.log('Login successful');
+            return { success: true, data: result };
 
         } catch (error) {
             console.error('Error logging in:', error);
-            setError('Failed to log in');
-            return { success: false, error: error.message }; // Return error for handling
+            // Ensure all auth data is cleared on error
+            clearAuthData();
+            setToken(null);
+            setProfile(null);
+            setIsAuthenticated(false);
+            
+            return { 
+                success: false, 
+                error: error.message || 'An error occurred during login. Please try again.' 
+            };
         }
     };
 
@@ -481,11 +605,36 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('profile');
-        setToken(null);
-        setProfile(null);
-        setIsAdmin(false);
+        try {
+            // Clear all authentication data from localStorage
+            clearAuthData();
+            
+            // Reset all auth-related state
+            setToken(null);
+            setProfile(null);
+            setIsAdmin(false);
+            setIsAuthenticated(false);
+            
+            // Clear any stored notifications or user data
+            setNotifications([]);
+            setAllUsers([]);
+            setTransactionsHistory([]);
+            setDeposits([]);
+            setWithdrawals([]);
+            
+            // Redirect to login page
+            navigate('/authentication/sign-in');
+            
+            console.log('User logged out successfully');
+        } catch (error) {
+            console.error('Error during logout:', error);
+            // Even if there's an error, we still want to clear the auth state
+            clearAuthData();
+            setToken(null);
+            setProfile(null);
+            setIsAuthenticated(false);
+            navigate('/authentication/sign-in');
+        }
     };
     const getNotification = () => {
         const myHeaders = new Headers();
