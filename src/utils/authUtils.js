@@ -39,9 +39,14 @@ export const validateStoredToken = () => {
         // Clear auth data from localStorage
         localStorage.removeItem('token');
         localStorage.removeItem('profile');
+        
+        // Force a page refresh to ensure clean state
+        // This will trigger the auth check in App.js and redirect to login
+        window.location.href = '/authentication/sign-in';
+        return false;
     }
 
-    return !isExpired;
+    return true;
 };
 
 /**
